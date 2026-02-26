@@ -95,6 +95,52 @@ export function svgToInlineHtml(svg: string): string {
   return svg;
 }
 
+/** Generate usage example: import .svg file as React component (e.g. via SVGR / Vite plugin) */
+export function svgReactImportUsage(fileName: string, name: string): string {
+  const kebab = name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+  return `// ─── Option 1: Import as React component (SVGR / vite-plugin-svgr) ───
+import { ReactComponent as ${name} } from "./${kebab}.svg";
+// or with Vite plugin:
+// import ${name} from "./${kebab}.svg?react";
+
+function App() {
+  return (
+    <${name} className="h-6 w-6 text-blue-500" />
+  );
+}
+
+// ─── Option 2: Import as URL (standard Vite / CRA) ───
+import ${kebab}Url from "./${kebab}.svg";
+
+function AppWithImg() {
+  return (
+    <img src={${kebab}Url} alt="${name}" className="h-6 w-6" />
+  );
+}`;
+}
+
+/** Generate usage example: import .svg file in Vue SFC */
+export function svgVueImportUsage(fileName: string, name: string): string {
+  const kebab = name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
+  return `<!-- Option 1: Import as Vue component (vite-svg-loader) -->
+<script setup lang="ts">
+import ${name} from "./${kebab}.svg?component";
+</script>
+
+<template>
+  <${name} class="h-6 w-6 text-blue-500" />
+</template>
+
+<!-- Option 2: Import as URL -->
+<script setup lang="ts">
+import ${kebab}Url from "./${kebab}.svg";
+</script>
+
+<template>
+  <img :src="${kebab}Url" alt="${name}" class="h-6 w-6" />
+</template>`;
+}
+
 export function getByteSize(str: string): number {
   return new Blob([str]).size;
 }
