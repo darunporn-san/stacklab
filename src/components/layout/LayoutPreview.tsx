@@ -63,10 +63,10 @@ export function LayoutPreview({ mode, flexConfig, gridConfig, flexItems, gridIte
         </span>
       </div>
 
-      <div className="overflow-auto rounded-lg border border-border bg-background">
+      <div className="overflow-auto rounded-lg border border-border bg-muted/30">
         <div
-          style={{ width: `${Math.min(viewportWidth, 1440)}px`, maxWidth: "100%", minHeight: 200, position: "relative" }}
-          className="mx-auto transition-all duration-300"
+          style={{ width: `${viewportWidth}px`, minHeight: 220, position: "relative" }}
+          className="transition-all duration-300 border-x border-dashed border-primary/20 bg-background"
         >
           {showGridOverlay && mode === "grid" && (
             <div
