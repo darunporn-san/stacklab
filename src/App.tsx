@@ -18,6 +18,7 @@ import CaseConverterPage from "./pages/CaseConverterPage";
 import SvgOptimizerPage from "./pages/SvgOptimizerPage";
 import DiffCheckerPage from "./pages/DiffCheckerPage";
 import ImageConverterPage from "./pages/ImageConverterPage";
+import ResponsivePlaygroundPage from "./pages/ResponsivePlaygroundPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="/svg-optimizer" element={<SvgOptimizerPage />} />
               <Route path="/diff-checker" element={<DiffCheckerPage />} />
               <Route path="/image-converter" element={<ImageConverterPage />} />
+              <Route path="/responsive-playground" element={<ResponsivePlaygroundPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
