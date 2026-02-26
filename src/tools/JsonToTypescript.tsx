@@ -97,21 +97,19 @@ export default function JsonToTypescriptTool() {
             <span className="text-sm text-muted-foreground">{label}</span>
           </label>
         ))}
+        <button
+          onClick={generate}
+          disabled={loading || !input.trim()}
+          className="rounded-md bg-primary px-5 py-2 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 ml-auto"
+        >
+          {loading ? "Generating…" : "Generate"}
+        </button>
       </div>
 
       {/* Panels */}
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-muted-foreground">JSON Input</span>
-            <button
-              onClick={generate}
-              disabled={loading || !input.trim()}
-              className="rounded-md bg-primary px-4 py-1.5 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
-            >
-              {loading ? "Generating…" : "Generate"}
-            </button>
-          </div>
+          <span className="text-xs font-medium text-muted-foreground">JSON Input</span>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
