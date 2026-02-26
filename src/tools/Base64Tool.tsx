@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ToolLayout } from "../components/ToolLayout";
 import { CopyButton } from "../components/CopyButton";
 
 export default function Base64Tool() {
@@ -22,7 +21,7 @@ export default function Base64Tool() {
   };
 
   return (
-    <ToolLayout title="Base64 Encode / Decode" description="Encode or decode Base64 strings.">
+    <div className="space-y-4">
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-2">
           <label className="text-sm font-medium text-muted-foreground">Input</label>
@@ -56,6 +55,6 @@ export default function Base64Tool() {
           )}
         </div>
       </div>
-    </ToolLayout>
+    </div>
   );
 }

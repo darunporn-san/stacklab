@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ToolLayout } from "../components/ToolLayout";
 import { CopyButton } from "../components/CopyButton";
 
 function parseCurl(curl: string): { method: string; url: string; headers: Record<string, string>; body?: string } {
@@ -85,7 +84,7 @@ export default function CurlToFetch() {
   };
 
   return (
-    <ToolLayout title="Curl to Fetch Converter" description="Convert curl commands to JavaScript fetch() code.">
+    <div className="space-y-4">
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-2">
           <label className="text-sm font-medium text-muted-foreground">Curl Command</label>
@@ -110,6 +109,6 @@ export default function CurlToFetch() {
           </pre>
         </div>
       </div>
-    </ToolLayout>
+    </div>
   );
 }

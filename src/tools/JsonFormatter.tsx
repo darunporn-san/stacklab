@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ToolLayout } from "../components/ToolLayout";
 import { CopyButton } from "../components/CopyButton";
 
 export default function JsonFormatter() {
@@ -30,7 +29,7 @@ export default function JsonFormatter() {
   };
 
   return (
-    <ToolLayout title="JSON Formatter / Validator" description="Format, minify, and validate JSON data.">
+    <div className="space-y-4">
       <div className="grid gap-4 lg:grid-cols-2">
         <div className="space-y-2">
           <label className="text-sm font-medium text-muted-foreground">Input</label>
@@ -64,6 +63,6 @@ export default function JsonFormatter() {
           )}
         </div>
       </div>
-    </ToolLayout>
+    </div>
   );
 }
