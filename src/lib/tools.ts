@@ -1,7 +1,8 @@
-import { Braces, Key, Binary, Regex, Fingerprint, Clock, Terminal } from "lucide-react";
+import { Braces, Key, Binary, Regex, Fingerprint, Clock, Terminal, FileType } from "lucide-react";
 
 export const tools = [
   { id: "json-formatter", label: "JSON Formatter", icon: Braces, path: "/json-formatter" },
+  { id: "json-to-typescript", label: "JSON → TypeScript", icon: FileType, path: "/json-to-typescript" },
   { id: "jwt-decoder", label: "JWT Decoder", icon: Key, path: "/jwt-decoder" },
   { id: "base64-encoder", label: "Base64 Encoder", icon: Binary, path: "/base64-encoder" },
   { id: "regex-tester", label: "Regex Tester", icon: Regex, path: "/regex-tester" },

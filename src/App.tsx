@@ -13,6 +13,7 @@ import RegexTesterPage from "./pages/RegexTesterPage";
 import UuidGeneratorPage from "./pages/UuidGeneratorPage";
 import TimestampConverterPage from "./pages/TimestampConverterPage";
 import CurlToFetchPage from "./pages/CurlToFetchPage";
+import JsonToTypescriptPage from "./pages/JsonToTypescriptPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route element={<AppLayout />}>
               <Route path="/" element={<Index />} />
               <Route path="/json-formatter" element={<JsonFormatterPage />} />
+              <Route path="/json-to-typescript" element={<JsonToTypescriptPage />} />
               <Route path="/jwt-decoder" element={<JwtDecoderPage />} />
               <Route path="/base64-encoder" element={<Base64Page />} />
               <Route path="/regex-tester" element={<RegexTesterPage />} />
