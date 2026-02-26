@@ -21,10 +21,18 @@ export default function JwtDecoderPage() {
       </ContentSection>
 
       <ContentSection title="How to Use">
-        <p>1. Paste your JWT token into the input field.</p>
-        <p>2. The header and payload are decoded automatically.</p>
-        <p>3. Timestamps like <code className="font-mono text-code-foreground">exp</code> and <code className="font-mono text-code-foreground">iat</code> are converted to readable dates.</p>
-        <p>4. Copy the decoded output with the copy button.</p>
+        <p>1. Paste your JWT token — it decodes automatically.</p>
+        <p>2. Switch between Header, Payload, and Signature tabs.</p>
+        <p>3. View the live expiry countdown and timezone-converted timestamps in the status card.</p>
+        <p>4. Search, copy individual claims, or copy the entire payload.</p>
+        <p>5. Optionally validate the signature using your secret key or public key.</p>
+      </ContentSection>
+
+      <ContentSection title="Features">
+        <p><strong>Live Expiry Countdown</strong> — Color-coded timer shows time remaining (green/yellow/red).</p>
+        <p><strong>Timezone Conversion</strong> — All timestamps shown in both UTC and your local timezone.</p>
+        <p><strong>Structured Payload Viewer</strong> — Searchable tree view with syntax highlighting and per-claim copy.</p>
+        <p><strong>Signature Validation</strong> — Verify HMAC (HS256/384/512), RSA (RS256), and ECDSA (ES256) signatures locally.</p>
       </ContentSection>
 
       <ContentSection title="Example">
@@ -36,9 +44,10 @@ SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c`}
       </ContentSection>
 
       <FaqSection items={[
-        { q: "Does this verify the JWT signature?", a: "No. This is a decoder only. Signature verification requires the secret key and is not performed client-side in this tool." },
-        { q: "Is it safe to paste my JWT here?", a: "Yes. The token is decoded entirely in your browser and is never transmitted anywhere." },
-        { q: "What claims are auto-converted?", a: "The exp (expiration) and iat (issued at) numeric timestamps are automatically converted to human-readable dates." },
+        { q: "Does this verify the JWT signature?", a: "Yes! You can optionally validate HMAC and asymmetric signatures. Expand the 'Validate Signature' section in the Signature tab." },
+        { q: "Is it safe to paste my JWT here?", a: "Yes. Everything runs locally in your browser. No tokens or keys are ever sent to any server." },
+        { q: "What timestamps are auto-converted?", a: "exp (expiration), iat (issued at), and nbf (not before) are converted to human-readable dates in both UTC and your local timezone." },
+        { q: "What algorithms are supported for signature validation?", a: "HS256, HS384, HS512 (symmetric), RS256, and ES256 (asymmetric) are supported using the Web Crypto API." },
       ]} />
 
       <RelatedTools currentId="jwt-decoder" />

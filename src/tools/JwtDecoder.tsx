@@ -1,71 +1,81 @@
-import { useState, useEffect } from "react";
-import { CopyButton } from "../components/CopyButton";
-
-function decodeJwt(token: string) {
-  const parts = token.split(".");
-  if (parts.length !== 3) throw new Error("Invalid JWT: must have 3 parts");
-  const decode = (s: string) => {
-    const base64 = s.replace(/-/g, "+").replace(/_/g, "/");
-    return JSON.parse(atob(base64));
-  };
-  return { header: decode(parts[0]), payload: decode(parts[1]) };
-}
+import { useJWT } from "@/hooks/useJWT";
+import { TokenInput } from "@/components/jwt/TokenInput";
+import { PayloadViewer } from "@/components/jwt/PayloadViewer";
+import { ExpiryCard } from "@/components/jwt/ExpiryCard";
+import { SignatureValidator } from "@/components/jwt/SignatureValidator";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function JwtDecoder() {
-  const [input, setInput] = useState("");
-  const [header, setHeader] = useState("");
-  const [payload, setPayload] = useState("");
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (!input.trim()) { setHeader(""); setPayload(""); setError(""); return; }
-    try {
-      const decoded = decodeJwt(input.trim());
-      const payloadObj = decoded.payload;
-      if (payloadObj.exp) {
-        payloadObj._exp_readable = new Date(payloadObj.exp * 1000).toLocaleString();
-      }
-      if (payloadObj.iat) {
-        payloadObj._iat_readable = new Date(payloadObj.iat * 1000).toLocaleString();
-      }
-      setHeader(JSON.stringify(decoded.header, null, 2));
-      setPayload(JSON.stringify(payloadObj, null, 2));
-      setError("");
-    } catch (e: any) {
-      setError(e.message);
-      setHeader("");
-      setPayload("");
-    }
-  }, [input]);
+  const { token, setToken, decoded, error, status, secondsRemaining, clear } = useJWT();
 
   return (
     <div className="space-y-4">
-      <div className="space-y-2">
-        <label className="text-sm font-medium text-muted-foreground">JWT Token</label>
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Paste your JWT token here..."
-          className="h-24 w-full resize-none rounded-lg border border-border bg-code p-4 font-mono text-sm text-code-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-          spellCheck={false}
-        />
-      </div>
-      {error && <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">{error}</div>}
-      {header && (
-        <div className="grid gap-4 lg:grid-cols-2">
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-muted-foreground">Header</label>
-              <CopyButton text={header} />
-            </div>
-            <pre className="overflow-auto rounded-lg border border-border bg-code p-4 font-mono text-sm text-code-foreground">{header}</pre>
+      <TokenInput value={token} onChange={setToken} onClear={clear} status={status} />
+
+      {error && (
+        <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive">
+          {error}
+        </div>
+      )}
+
+      {decoded && (
+        <div className="grid gap-4 lg:grid-cols-[1fr_280px]">
+          {/* Main content */}
+          <div className="space-y-4">
+            <Tabs defaultValue="payload" className="w-full">
+              <TabsList className="w-full grid grid-cols-3">
+                <TabsTrigger value="header">Header</TabsTrigger>
+                <TabsTrigger value="payload">Payload</TabsTrigger>
+                <TabsTrigger value="signature">Signature</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="header" className="mt-3">
+                <PayloadViewer data={decoded.header} title="Header" />
+              </TabsContent>
+
+              <TabsContent value="payload" className="mt-3">
+                <PayloadViewer data={decoded.payload as Record<string, unknown>} title="Payload" />
+              </TabsContent>
+
+              <TabsContent value="signature" className="mt-3 space-y-3">
+                <div className="rounded-lg border border-border bg-code p-4">
+                  <label className="text-xs font-medium text-muted-foreground">Raw Signature</label>
+                  <pre className="mt-1 font-mono text-xs text-code-foreground break-all">{decoded.signature}</pre>
+                </div>
+                <SignatureValidator token={token} algorithm={decoded.header.alg} />
+              </TabsContent>
+            </Tabs>
           </div>
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-muted-foreground">Payload</label>
-              <CopyButton text={payload} />
+
+          {/* Right panel */}
+          <div className="space-y-4">
+            {status && (
+              <ExpiryCard
+                payload={decoded.payload}
+                status={status}
+                secondsRemaining={secondsRemaining}
+              />
+            )}
+
+            {/* Algorithm card */}
+            <div className="rounded-lg border border-border p-3 space-y-2">
+              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Algorithm</h3>
+              <span className="inline-flex rounded-full bg-primary/10 border border-primary/20 px-3 py-1 font-mono text-sm font-semibold text-primary">
+                {decoded.header.alg}
+              </span>
+              {decoded.header.typ && (
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Type</span>
+                  <span className="font-mono">{decoded.header.typ}</span>
+                </div>
+              )}
+              {decoded.header.kid && (
+                <div className="flex justify-between text-xs">
+                  <span className="text-muted-foreground">Key ID</span>
+                  <span className="font-mono truncate ml-2 max-w-[60%]">{decoded.header.kid}</span>
+                </div>
+              )}
             </div>
-            <pre className="overflow-auto rounded-lg border border-border bg-code p-4 font-mono text-sm text-code-foreground">{payload}</pre>
           </div>
         </div>
       )}
