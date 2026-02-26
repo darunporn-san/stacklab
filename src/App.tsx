@@ -15,6 +15,9 @@ import TimestampConverterPage from "./pages/TimestampConverterPage";
 import CurlToFetchPage from "./pages/CurlToFetchPage";
 import JsonToTypescriptPage from "./pages/JsonToTypescriptPage";
 import CaseConverterPage from "./pages/CaseConverterPage";
+import SvgOptimizerPage from "./pages/SvgOptimizerPage";
+import DiffCheckerPage from "./pages/DiffCheckerPage";
+import ImageConverterPage from "./pages/ImageConverterPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +41,9 @@ const App = () => (
               <Route path="/timestamp-converter" element={<TimestampConverterPage />} />
               <Route path="/curl-to-fetch" element={<CurlToFetchPage />} />
               <Route path="/case-converter" element={<CaseConverterPage />} />
+              <Route path="/svg-optimizer" element={<SvgOptimizerPage />} />
+              <Route path="/diff-checker" element={<DiffCheckerPage />} />
+              <Route path="/image-converter" element={<ImageConverterPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
