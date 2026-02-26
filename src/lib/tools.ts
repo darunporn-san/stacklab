@@ -1,4 +1,4 @@
-import { Braces, Key, Binary, Regex, Fingerprint, Clock, Terminal, FileType } from "lucide-react";
+import { Braces, Key, Binary, Regex, Fingerprint, Clock, Terminal, FileType, CaseSensitive } from "lucide-react";
 
 export const tools = [
   { id: "json-formatter", label: "JSON Formatter", icon: Braces, path: "/json-formatter" },
@@ -9,4 +9,5 @@ export const tools = [
   { id: "uuid-generator", label: "UUID Generator", icon: Fingerprint, path: "/uuid-generator" },
   { id: "timestamp-converter", label: "Timestamp Converter", icon: Clock, path: "/timestamp-converter" },
   { id: "curl-to-fetch", label: "Curl → Fetch", icon: Terminal, path: "/curl-to-fetch" },
+  { id: "case-converter", label: "Case Converter", icon: CaseSensitive, path: "/case-converter" },
 ] as const;

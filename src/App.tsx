@@ -14,6 +14,7 @@ import UuidGeneratorPage from "./pages/UuidGeneratorPage";
 import TimestampConverterPage from "./pages/TimestampConverterPage";
 import CurlToFetchPage from "./pages/CurlToFetchPage";
 import JsonToTypescriptPage from "./pages/JsonToTypescriptPage";
+import CaseConverterPage from "./pages/CaseConverterPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/uuid-generator" element={<UuidGeneratorPage />} />
               <Route path="/timestamp-converter" element={<TimestampConverterPage />} />
               <Route path="/curl-to-fetch" element={<CurlToFetchPage />} />
+              <Route path="/case-converter" element={<CaseConverterPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
