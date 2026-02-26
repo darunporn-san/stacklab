@@ -84,9 +84,12 @@ export default function ResponsivePlaygroundTool() {
           </div>
         )}
         {error && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-card/80">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 bg-card/90 px-6 text-center">
             <AlertTriangle className="h-6 w-6 text-destructive" />
-            <span className="text-xs text-destructive">Failed to load</span>
+            <span className="text-sm font-medium text-destructive">Refused to connect</span>
+            <span className="text-xs text-muted-foreground max-w-xs">
+              This site blocks iframe embedding via X-Frame-Options or CSP headers. Try a different URL like <span className="font-mono text-foreground">example.com</span>
+            </span>
           </div>
         )}
 
