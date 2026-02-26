@@ -129,7 +129,7 @@ export default function SvgOptimizerTool() {
                 </span>
               </div>
               <div
-                className="flex items-center justify-center rounded-lg border border-border bg-card p-6"
+                className="flex items-center justify-center rounded-lg border border-border bg-card p-6 overflow-hidden [&>svg]:max-w-full [&>svg]:max-h-[180px] [&>svg]:w-auto [&>svg]:h-auto"
                 dangerouslySetInnerHTML={{ __html: optimized }}
                 style={{ maxHeight: 200 }}
               />
