@@ -4,8 +4,6 @@ import { CodeBlock } from "../components/CodeBlock";
 import {
   optimizeSvg,
   isValidSvg,
-  svgToReactComponent,
-  svgToVueComponent,
   svgToInlineHtml,
   svgReactImportUsage,
   svgVueImportUsage,
@@ -15,7 +13,7 @@ import {
 } from "../lib/svgOptimizer";
 import { RotateCcw, Download } from "lucide-react";
 
-const TABS = ["Optimized SVG", "React Component", "React Import", "Vue Component", "Vue Import", "Inline HTML"] as const;
+const TABS = ["Optimized SVG", "React Import", "Vue Import", "Inline HTML"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function SvgOptimizerTool() {
@@ -46,12 +44,8 @@ export default function SvgOptimizerTool() {
     switch (tab) {
       case "Optimized SVG":
         return optimized;
-      case "React Component":
-        return svgToReactComponent(optimized, name);
       case "React Import":
         return svgReactImportUsage(name, name);
-      case "Vue Component":
-        return svgToVueComponent(optimized, name);
       case "Vue Import":
         return svgVueImportUsage(name, name);
       case "Inline HTML":
