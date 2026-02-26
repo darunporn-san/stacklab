@@ -19,6 +19,7 @@ import SvgOptimizerPage from "./pages/SvgOptimizerPage";
 import DiffCheckerPage from "./pages/DiffCheckerPage";
 import ImageConverterPage from "./pages/ImageConverterPage";
 import ResponsivePlaygroundPage from "./pages/ResponsivePlaygroundPage";
+import ResponsiveLayoutLabPage from "./pages/ResponsiveLayoutLabPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/diff-checker" element={<DiffCheckerPage />} />
               <Route path="/image-converter" element={<ImageConverterPage />} />
               <Route path="/responsive-playground" element={<ResponsivePlaygroundPage />} />
+              <Route path="/responsive-layout-lab" element={<ResponsiveLayoutLabPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
