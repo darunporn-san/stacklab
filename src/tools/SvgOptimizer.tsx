@@ -7,13 +7,15 @@ import {
   svgToReactComponent,
   svgToVueComponent,
   svgToInlineHtml,
+  svgReactImportUsage,
+  svgVueImportUsage,
   getByteSize,
   formatBytes,
   SvgOptimizeOptions,
 } from "../lib/svgOptimizer";
-import { RotateCcw } from "lucide-react";
+import { RotateCcw, Download } from "lucide-react";
 
-const TABS = ["Optimized SVG", "React", "Vue", "Inline HTML"] as const;
+const TABS = ["Optimized SVG", "React Component", "React Import", "Vue Component", "Vue Import", "Inline HTML"] as const;
 type Tab = (typeof TABS)[number];
 
 export default function SvgOptimizerTool() {
@@ -37,19 +39,25 @@ export default function SvgOptimizerTool() {
   const optimizedSize = useMemo(() => getByteSize(optimized), [optimized]);
   const reduction = originalSize > 0 ? Math.round(((originalSize - optimizedSize) / originalSize) * 100) : 0;
 
+  const name = componentName || "MyIcon";
+
   const output = useMemo(() => {
     if (!optimized) return "";
     switch (tab) {
       case "Optimized SVG":
         return optimized;
-      case "React":
-        return svgToReactComponent(optimized, componentName || "MyIcon");
-      case "Vue":
-        return svgToVueComponent(optimized, componentName || "MyIcon");
+      case "React Component":
+        return svgToReactComponent(optimized, name);
+      case "React Import":
+        return svgReactImportUsage(name, name);
+      case "Vue Component":
+        return svgToVueComponent(optimized, name);
+      case "Vue Import":
+        return svgVueImportUsage(name, name);
       case "Inline HTML":
         return svgToInlineHtml(optimized);
     }
-  }, [optimized, tab, componentName]);
+  }, [optimized, tab, name]);
 
   const handleFile = useCallback((file: File) => {
     const reader = new FileReader();
@@ -121,12 +129,28 @@ export default function SvgOptimizerTool() {
           {/* Preview + Stats */}
           {optimized && (
             <>
-              <div className="flex items-center gap-4">
-                <span className="text-xs font-medium text-muted-foreground">Preview</span>
-                <span className="text-xs text-muted-foreground">
-                  {formatBytes(originalSize)} → {formatBytes(optimizedSize)}{" "}
-                  <span className="text-success">({reduction}% saved)</span>
-                </span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <span className="text-xs font-medium text-muted-foreground">Preview</span>
+                  <span className="text-xs text-muted-foreground">
+                    {formatBytes(originalSize)} → {formatBytes(optimizedSize)}{" "}
+                    <span className="text-success">({reduction}% saved)</span>
+                  </span>
+                </div>
+                <button
+                  onClick={() => {
+                    const blob = new Blob([optimized], { type: "image/svg+xml" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase()}.svg`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground hover:bg-muted"
+                >
+                  <Download className="h-3.5 w-3.5" /> Download .svg
+                </button>
               </div>
               <div
                 className="flex items-center justify-center rounded-lg border border-border bg-card p-6 overflow-hidden [&>svg]:max-w-full [&>svg]:max-h-[180px] [&>svg]:w-auto [&>svg]:h-auto"
