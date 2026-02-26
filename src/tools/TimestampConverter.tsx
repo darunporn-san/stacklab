@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ToolLayout } from "../components/ToolLayout";
 import { CopyButton } from "../components/CopyButton";
 
 export default function TimestampConverter() {
@@ -37,7 +36,7 @@ export default function TimestampConverter() {
   })();
 
   return (
-    <ToolLayout title="Timestamp Converter" description="Convert between Unix timestamps and human-readable dates.">
+    <div className="space-y-4">
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-3">
           <label className="text-sm font-medium text-muted-foreground">Unix Timestamp → Date</label>
@@ -93,6 +92,6 @@ export default function TimestampConverter() {
           )}
         </div>
       </div>
-    </ToolLayout>
+    </div>
   );
 }

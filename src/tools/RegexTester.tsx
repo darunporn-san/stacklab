@@ -1,5 +1,4 @@
 import { useState, useMemo } from "react";
-import { ToolLayout } from "../components/ToolLayout";
 
 export default function RegexTester() {
   const [pattern, setPattern] = useState("");
@@ -34,7 +33,7 @@ export default function RegexTester() {
   }, [pattern, flags, testText]);
 
   return (
-    <ToolLayout title="Regex Tester" description="Test regular expressions with real-time highlighting.">
+    <div>
       <div className="space-y-4">
         <div className="flex flex-wrap items-end gap-3">
           <div className="flex-1 min-w-[200px] space-y-1">
@@ -91,6 +90,6 @@ export default function RegexTester() {
           </>
         )}
       </div>
-    </ToolLayout>
+    </div>
   );
 }

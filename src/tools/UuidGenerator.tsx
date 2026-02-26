@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ToolLayout } from "../components/ToolLayout";
 import { CopyButton } from "../components/CopyButton";
 
 function generateUUID(): string {
@@ -15,7 +14,7 @@ export default function UuidGenerator() {
   };
 
   return (
-    <ToolLayout title="UUID Generator" description="Generate random v4 UUIDs.">
+    <div className="space-y-4">
       <div className="flex flex-wrap items-end gap-3">
         <div className="space-y-1">
           <label className="text-sm font-medium text-muted-foreground">Count</label>
@@ -42,6 +41,6 @@ export default function UuidGenerator() {
           </div>
         ))}
       </div>
-    </ToolLayout>
+    </div>
   );
 }

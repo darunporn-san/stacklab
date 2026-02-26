@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { ToolLayout } from "../components/ToolLayout";
 import { CopyButton } from "../components/CopyButton";
 
 function decodeJwt(token: string) {
@@ -40,7 +39,7 @@ export default function JwtDecoder() {
   }, [input]);
 
   return (
-    <ToolLayout title="JWT Decoder" description="Decode and inspect JWT tokens. Signature is not verified.">
+    <div className="space-y-4">
       <div className="space-y-2">
         <label className="text-sm font-medium text-muted-foreground">JWT Token</label>
         <textarea
@@ -70,6 +69,6 @@ export default function JwtDecoder() {
           </div>
         </div>
       )}
-    </ToolLayout>
+    </div>
   );
 }
