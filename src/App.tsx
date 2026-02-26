@@ -3,25 +3,44 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
+import AppLayout from "./components/AppLayout";
 import Index from "./pages/Index";
+import JsonFormatterPage from "./pages/JsonFormatterPage";
+import JwtDecoderPage from "./pages/JwtDecoderPage";
+import Base64Page from "./pages/Base64Page";
+import RegexTesterPage from "./pages/RegexTesterPage";
+import UuidGeneratorPage from "./pages/UuidGeneratorPage";
+import TimestampConverterPage from "./pages/TimestampConverterPage";
+import CurlToFetchPage from "./pages/CurlToFetchPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
+  <HelmetProvider>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<AppLayout />}>
+              <Route path="/" element={<Index />} />
+              <Route path="/json-formatter" element={<JsonFormatterPage />} />
+              <Route path="/jwt-decoder" element={<JwtDecoderPage />} />
+              <Route path="/base64-encoder" element={<Base64Page />} />
+              <Route path="/regex-tester" element={<RegexTesterPage />} />
+              <Route path="/uuid-generator" element={<UuidGeneratorPage />} />
+              <Route path="/timestamp-converter" element={<TimestampConverterPage />} />
+              <Route path="/curl-to-fetch" element={<CurlToFetchPage />} />
+            </Route>
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </HelmetProvider>
 );
 
 export default App;
