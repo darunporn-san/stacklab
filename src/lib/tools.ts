@@ -1,4 +1,4 @@
-import { Braces, Key, Binary, Regex, Fingerprint, Clock, Terminal, FileType, CaseSensitive, Image, GitCompareArrows, FileCode, Monitor } from "lucide-react";
+import { Braces, Key, Binary, Regex, Fingerprint, Clock, Terminal, FileType, CaseSensitive, Image, GitCompareArrows, FileCode, Monitor, LayoutGrid } from "lucide-react";
 
 export const tools = [
   { id: "json-formatter", label: "JSON Formatter", icon: Braces, path: "/json-formatter" },
@@ -14,4 +14,5 @@ export const tools = [
   { id: "diff-checker", label: "Diff Checker", icon: GitCompareArrows, path: "/diff-checker" },
   { id: "image-converter", label: "Image Converter", icon: Image, path: "/image-converter" },
   { id: "responsive-playground", label: "Responsive Playground", icon: Monitor, path: "/responsive-playground" },
+  { id: "responsive-layout-lab", label: "Layout Lab", icon: LayoutGrid, path: "/responsive-layout-lab" },
 ] as const;
