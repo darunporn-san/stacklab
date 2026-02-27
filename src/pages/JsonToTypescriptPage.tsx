@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import JsonToTypescriptTool from "../tools/JsonToTypescript";
 
 export default function JsonToTypescriptPage() {
@@ -57,7 +57,7 @@ export interface User {
         { q: "Does it detect optional or nullable fields?", a: "Yes. Fields with null values are typed as nullable, and you can toggle all fields to optional." },
       ]} />
 
-      <RelatedTools currentId="json-to-typescript" />
+      
     </article>
   );
 }

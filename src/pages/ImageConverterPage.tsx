@@ -1,6 +1,6 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import ImageConverterTool from "../tools/ImageConverter";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -13,7 +13,7 @@ export default function ImageConverterPage() {
       <p className="mt-1 text-sm text-muted-foreground">{t("imageConverter.subtitle")}</p>
       <div className="mt-6"><ImageConverterTool /></div>
       <ContentSection title={t("common.whatIsIt")}><p>{t("imageConverter.whatIs")}</p></ContentSection>
-      <RelatedTools currentId="image-converter" />
+      
     </article>
   );
 }

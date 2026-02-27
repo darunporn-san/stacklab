@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import SmartJsonToTypescript from "../tools/SmartJsonToTypescript";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -14,7 +14,7 @@ export default function SmartJsonToTypescriptPage() {
       <p className="mt-1 text-sm text-muted-foreground">{t("smartJsonTs.subtitle")}</p>
       <div className="mt-6"><SmartJsonToTypescript /></div>
       <ContentSection title={t("common.whatIsIt")}><p>{t("smartJsonTs.whatIs")}</p></ContentSection>
-      <RelatedTools currentId="smart-json-to-typescript" />
+      
     </article>
   );
 }

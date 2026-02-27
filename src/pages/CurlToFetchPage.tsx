@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import CurlToFetchTool from "../tools/CurlToFetch";
 
 export default function CurlToFetchPage() {
@@ -52,7 +52,7 @@ const data = await response.json();`}
         { q: "Can I use the output directly?", a: "Yes. The output is valid JavaScript using the Fetch API. Wrap it in an async function if needed." },
       ]} />
 
-      <RelatedTools currentId="curl-to-fetch" />
+      
     </article>
   );
 }

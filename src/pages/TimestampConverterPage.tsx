@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import TimestampConverterTool from "../tools/TimestampConverter";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -20,7 +20,7 @@ export default function TimestampConverterPage() {
         <p>{t("timestamp.howTo3")}</p>
         <p>{t("timestamp.howTo4")}</p>
       </ContentSection>
-      <RelatedTools currentId="timestamp-converter" />
+      
     </article>
   );
 }
