@@ -60,12 +60,19 @@ export const toolCategories: ToolCategory[] = [
     ],
   },
   {
+    label: "API & Network",
+    icon: Terminal,
+    tools: [
+      { id: "curl-to-fetch", label: "Curl → Fetch", icon: Terminal, path: "/curl-to-fetch" },
+      { id: "route-query-splitter", label: "Route & Query Splitter", icon: GitCompareArrows, path: "/route-query-splitter" },
+    ],
+  },
+  {
     label: "Text & Code",
     icon: CaseSensitive,
     tools: [
       { id: "regex-tester", label: "Regex Tester", icon: Regex, path: "/regex-tester" },
       { id: "case-converter", label: "Case Converter", icon: CaseSensitive, path: "/case-converter" },
-      { id: "curl-to-fetch", label: "Curl → Fetch", icon: Terminal, path: "/curl-to-fetch" },
     ],
   },
   {

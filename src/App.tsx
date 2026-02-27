@@ -23,6 +23,7 @@ import ResponsivePlaygroundPage from "./pages/ResponsivePlaygroundPage";
 import ResponsiveLayoutLabPage from "./pages/ResponsiveLayoutLabPage";
 import JsonTreeViewerPage from "./pages/JsonTreeViewerPage";
 import SmartJsonToTypescriptPage from "./pages/SmartJsonToTypescriptPage";
+import RouteQuerySplitterPage from "./pages/RouteQuerySplitterPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -54,6 +55,7 @@ const App = () => (
               <Route path="/responsive-playground" element={<ResponsivePlaygroundPage />} />
               <Route path="/responsive-layout-lab" element={<ResponsiveLayoutLabPage />} />
               <Route path="/smart-json-to-typescript" element={<SmartJsonToTypescriptPage />} />
+              <Route path="/route-query-splitter" element={<RouteQuerySplitterPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
