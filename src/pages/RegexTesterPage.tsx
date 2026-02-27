@@ -9,7 +9,7 @@ export default function RegexTesterPage() {
     <article className="animate-fade-in">
       <SeoHead
         title="Regex Tester"
-        description="Test regular expressions with real-time match highlighting. Supports global, case-insensitive, and multiline flags. Free online regex tool."
+        description="Test regular expressions with real-time match highlighting and build validation rules visually with our Regex Rule Builder. Free online regex tool."
       />
       <h1 className="text-2xl font-semibold tracking-tight">Regex Tester</h1>
       <p className="mt-1 text-sm text-muted-foreground">Test and debug regular expressions with real-time match highlighting.</p>
