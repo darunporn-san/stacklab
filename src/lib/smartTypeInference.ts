@@ -306,7 +306,7 @@ function generateZod(data: unknown, opts: InferenceOptions): { code: string; ana
     return { code: `import { z } from "zod";\n\nexport const ${opts.rootName}Schema = z.${typeof data}();`, analysis: emptyAnalysis() };
   }
 
-  const fields = isArray ? rootInfo.arrayItemInfo?.children : rootInfo.children;
+  const fields = isArray ? (rootInfo.children || rootInfo.arrayItemInfo?.children) : rootInfo.children;
   const analysis = buildAnalysis(rootInfo, extracted, opts);
 
   function fieldToZod(info: FieldInfo, name: string): string {
