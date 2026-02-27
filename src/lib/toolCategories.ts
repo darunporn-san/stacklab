@@ -55,7 +55,7 @@ export const toolCategories: ToolCategory[] = [
     label: "Comparison Tools",
     icon: GitCompareArrows,
     tools: [
-      { id: "diff-checker", label: "Diff Checker (Basic)", icon: GitCompareArrows, path: "/diff-checker" },
+      // { id: "diff-checker", label: "Diff Checker (Basic)", icon: GitCompareArrows, path: "/diff-checker" },
       { id: "advanced-json-diff", label: "Advanced JSON Diff", icon: GitCompare, path: "/advanced-json-diff" },
     ],
   },
