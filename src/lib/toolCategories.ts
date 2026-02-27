@@ -1,7 +1,7 @@
 import {
   Braces, Key, Binary, Regex, Fingerprint, Clock, Terminal,
   FileType, CaseSensitive, Image, GitCompareArrows, FileCode,
-  Monitor, LayoutGrid, GitCompare, TreesIcon
+  Monitor, LayoutGrid, GitCompare, TreesIcon, Sparkles
 } from "lucide-react";
 
 export interface ToolItem {
@@ -25,6 +25,7 @@ export const toolCategories: ToolCategory[] = [
       { id: "json-formatter", label: "JSON Formatter", icon: Braces, path: "/json-formatter" },
       { id: "json-tree-viewer", label: "JSON Tree Viewer", icon: TreesIcon, path: "/json-tree-viewer" },
       { id: "json-to-typescript", label: "JSON → TypeScript", icon: FileType, path: "/json-to-typescript" },
+      { id: "smart-json-to-typescript", label: "JSON → TS Pro", icon: Sparkles, path: "/smart-json-to-typescript" },
     ],
   },
   {
