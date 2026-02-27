@@ -1,6 +1,6 @@
-import { presets } from "@/lib/regexPresets";
+import { presets, presetCategories } from "@/lib/regexPresets";
 import type { RuleConfig } from "@/lib/regexRuleConfig";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface Props {
   onSelect: (config: RuleConfig) => void;
@@ -15,14 +15,17 @@ export function PresetSelector({ onSelect }: Props) {
         if (preset) onSelect(structuredClone(preset.config));
       }}>
         <SelectTrigger className="text-sm"><SelectValue placeholder="Choose a preset..." /></SelectTrigger>
-        <SelectContent>
-          {presets.map((p) => (
-            <SelectItem key={p.name} value={p.name}>
-              <div className="flex flex-col">
-                <span>{p.name}</span>
-                <span className="text-xs text-muted-foreground">{p.description}</span>
-              </div>
-            </SelectItem>
+        <SelectContent className="max-h-[300px]">
+          {presetCategories.map((cat) => (
+            <SelectGroup key={cat}>
+              <SelectLabel className="text-xs text-muted-foreground">{cat}</SelectLabel>
+              {presets.filter((p) => p.category === cat).map((p) => (
+                <SelectItem key={p.name} value={p.name}>
+                  <span className="text-sm">{p.name}</span>
+                  <span className="ml-2 text-xs text-muted-foreground">{p.description}</span>
+                </SelectItem>
+              ))}
+            </SelectGroup>
           ))}
         </SelectContent>
       </Select>
