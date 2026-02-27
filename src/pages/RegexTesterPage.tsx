@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import RegexTesterTool from "../tools/RegexTester";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -13,7 +13,7 @@ export default function RegexTesterPage() {
       <h1 className="text-2xl font-semibold tracking-tight">{t("regex.title")}</h1>
       <p className="mt-1 text-sm text-muted-foreground">{t("regex.subtitle")}</p>
       <div className="mt-6"><RegexTesterTool /></div>
-      <RelatedTools currentId="regex-tester" />
+      
     </article>
   );
 }

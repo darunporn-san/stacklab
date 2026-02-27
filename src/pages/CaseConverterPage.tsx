@@ -1,6 +1,6 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import CaseConverterTool from "../tools/CaseConverter";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -13,7 +13,7 @@ export default function CaseConverterPage() {
       <p className="mt-1 text-sm text-muted-foreground">{t("caseConverter.subtitle")}</p>
       <div className="mt-6"><CaseConverterTool /></div>
       <ContentSection title={t("common.whatIsIt")}><p>{t("caseConverter.whatIs")}</p></ContentSection>
-      <RelatedTools currentId="case-converter" />
+      
     </article>
   );
 }

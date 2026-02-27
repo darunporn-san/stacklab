@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import JsonFormatterTool from "../tools/JsonFormatter";
 
 export default function JsonFormatterPage() {
@@ -53,7 +53,7 @@ export default function JsonFormatterPage() {
         { q: "Can I format large JSON files?", a: "Yes, the tool handles large JSON payloads efficiently since it uses native browser JSON parsing." },
       ]} />
 
-      <RelatedTools currentId="json-formatter" />
+      
     </article>
   );
 }

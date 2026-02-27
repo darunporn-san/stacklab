@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import DiffCheckerTool from "../tools/DiffChecker";
 
 export default function DiffCheckerPage() {
@@ -35,7 +35,7 @@ export default function DiffCheckerPage() {
         { q: "Can I download the diff?", a: "Yes. Click the Download button to save the diff as a .txt file." },
       ]} />
 
-      <RelatedTools currentId="diff-checker" />
+      
     </article>
   );
 }

@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import UuidGeneratorTool from "../tools/UuidGenerator";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -19,7 +19,7 @@ export default function UuidGeneratorPage() {
         <p>{t("uuid.howTo2")}</p>
         <p>{t("uuid.howTo3")}</p>
       </ContentSection>
-      <RelatedTools currentId="uuid-generator" />
+      
     </article>
   );
 }

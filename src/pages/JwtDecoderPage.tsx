@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import JwtDecoderTool from "../tools/JwtDecoder";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -21,7 +21,7 @@ export default function JwtDecoderPage() {
         <p>{t("jwt.howTo4")}</p>
         <p>{t("jwt.howTo5")}</p>
       </ContentSection>
-      <RelatedTools currentId="jwt-decoder" />
+      
     </article>
   );
 }

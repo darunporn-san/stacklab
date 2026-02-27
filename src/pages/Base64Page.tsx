@@ -1,7 +1,7 @@
 import { SeoHead } from "../components/SeoHead";
 import { ContentSection } from "../components/ContentSection";
 import { FaqSection } from "../components/FaqSection";
-import { RelatedTools } from "../components/RelatedTools";
+
 import Base64Tool from "../tools/Base64Tool";
 import { useTranslation } from "@/hooks/useI18n";
 
@@ -24,7 +24,7 @@ export default function Base64Page() {
         { q: t("base64.faqUnicode"), a: t("base64.faqUnicodeA") },
         { q: t("base64.faqSize"), a: t("base64.faqSizeA") },
       ]} />
-      <RelatedTools currentId="base64-encoder" />
+      
     </article>
   );
 }
