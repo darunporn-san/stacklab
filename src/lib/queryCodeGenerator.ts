@@ -20,7 +20,22 @@ export function buildBaseUrl(protocol: string, host: string, fullPath: string): 
   return fullPath;
 }
 
-export function generateFetchCode(baseUrl: string, queryParams: QueryParam[]): string {
+export function generateFetchURLSearchParams(baseUrl: string, queryParams: QueryParam[]): string {
+  if (queryParams.length === 0) return "";
+
+  const entries = queryParams
+    .map((q) => `  ${q.key}: "${q.value}",`)
+    .join("\n");
+
+  return `const params = new URLSearchParams({
+${entries}
+});
+
+const response = await fetch(\`${baseUrl}?\${params}\`);
+const data = await response.json();`;
+}
+
+export function generateFetchURL(baseUrl: string, queryParams: QueryParam[]): string {
   if (queryParams.length === 0) return "";
 
   const lines: string[] = [];
@@ -30,7 +45,7 @@ export function generateFetchCode(baseUrl: string, queryParams: QueryParam[]): s
     lines.push(`url.searchParams.set("${q.key}", "${q.value}");`);
   }
   lines.push("");
-  lines.push("const response = await fetch(url);");
+  lines.push("const response = await fetch(url.toString());");
   lines.push("const data = await response.json();");
 
   return lines.join("\n");
