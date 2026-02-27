@@ -1,5 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
+import { I18nProvider } from "@/hooks/useI18n";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -32,37 +33,39 @@ const queryClient = new QueryClient();
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route element={<AppLayout />}>
-              <Route path="/" element={<Index />} />
-              <Route path="/json-formatter" element={<JsonFormatterPage />} />
-              <Route path="/json-tree-viewer" element={<JsonTreeViewerPage />} />
-              <Route path="/json-to-typescript" element={<JsonToTypescriptPage />} />
-              <Route path="/jwt-decoder" element={<JwtDecoderPage />} />
-              <Route path="/base64-encoder" element={<Base64Page />} />
-              <Route path="/regex-tester" element={<RegexTesterPage />} />
-              <Route path="/uuid-generator" element={<UuidGeneratorPage />} />
-              <Route path="/timestamp-converter" element={<TimestampConverterPage />} />
-              <Route path="/curl-to-fetch" element={<CurlToFetchPage />} />
-              <Route path="/case-converter" element={<CaseConverterPage />} />
-              <Route path="/svg-optimizer" element={<SvgOptimizerPage />} />
-              <Route path="/diff-checker" element={<DiffCheckerPage />} />
-              <Route path="/advanced-json-diff" element={<AdvancedJsonDiffPage />} />
-              <Route path="/image-converter" element={<ImageConverterPage />} />
-              <Route path="/responsive-playground" element={<ResponsivePlaygroundPage />} />
-              <Route path="/responsive-layout-lab" element={<ResponsiveLayoutLabPage />} />
-              <Route path="/smart-json-to-typescript" element={<SmartJsonToTypescriptPage />} />
-              <Route path="/route-query-splitter" element={<RouteQuerySplitterPage />} />
-              <Route path="/color-css-utilities" element={<ColorCssUtilitiesPage />} />
-            </Route>
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
+      <I18nProvider>
+        <TooltipProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route element={<AppLayout />}>
+                <Route path="/" element={<Index />} />
+                <Route path="/json-formatter" element={<JsonFormatterPage />} />
+                <Route path="/json-tree-viewer" element={<JsonTreeViewerPage />} />
+                <Route path="/json-to-typescript" element={<JsonToTypescriptPage />} />
+                <Route path="/jwt-decoder" element={<JwtDecoderPage />} />
+                <Route path="/base64-encoder" element={<Base64Page />} />
+                <Route path="/regex-tester" element={<RegexTesterPage />} />
+                <Route path="/uuid-generator" element={<UuidGeneratorPage />} />
+                <Route path="/timestamp-converter" element={<TimestampConverterPage />} />
+                <Route path="/curl-to-fetch" element={<CurlToFetchPage />} />
+                <Route path="/case-converter" element={<CaseConverterPage />} />
+                <Route path="/svg-optimizer" element={<SvgOptimizerPage />} />
+                <Route path="/diff-checker" element={<DiffCheckerPage />} />
+                <Route path="/advanced-json-diff" element={<AdvancedJsonDiffPage />} />
+                <Route path="/image-converter" element={<ImageConverterPage />} />
+                <Route path="/responsive-playground" element={<ResponsivePlaygroundPage />} />
+                <Route path="/responsive-layout-lab" element={<ResponsiveLayoutLabPage />} />
+                <Route path="/smart-json-to-typescript" element={<SmartJsonToTypescriptPage />} />
+                <Route path="/route-query-splitter" element={<RouteQuerySplitterPage />} />
+                <Route path="/color-css-utilities" element={<ColorCssUtilitiesPage />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </TooltipProvider>
+      </I18nProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );

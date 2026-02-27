@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
-import { Menu, X, Wrench } from "lucide-react";
+import { Menu, X, Wrench, Globe } from "lucide-react";
 import { toolCategories } from "../lib/toolCategories";
+import { useTranslation } from "@/hooks/useI18n";
 
 export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
+  const { t, lang, setLang } = useTranslation();
 
   return (
     <div className="flex h-screen overflow-hidden bg-background">
@@ -27,10 +29,10 @@ export default function AppLayout() {
         </button>
         <nav aria-label="Tools" className="flex-1 overflow-y-auto p-2 space-y-3">
           {toolCategories.map((cat) => (
-            <div key={cat.label}>
+            <div key={cat.labelKey}>
               <div className="flex items-center gap-2 px-3 py-1.5">
                 <cat.icon className="h-3.5 w-3.5 text-muted-foreground/70" />
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">{cat.label}</span>
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">{t(cat.labelKey)}</span>
               </div>
               <div className="space-y-0.5">
                 {cat.tools.map((tool) => {
@@ -47,7 +49,7 @@ export default function AppLayout() {
                       }`}
                     >
                       <tool.icon className={`h-4 w-4 ${isActive ? "text-primary" : ""}`} />
-                      {tool.label}
+                      {t(tool.labelKey)}
                     </Link>
                   );
                 })}
@@ -56,16 +58,37 @@ export default function AppLayout() {
           ))}
         </nav>
         <div className="border-t border-border p-4 text-xs text-muted-foreground">
-          All tools run locally in your browser.
+          {t("common.allLocal")}
         </div>
       </aside>
 
       <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="flex h-14 items-center gap-3 border-b border-border px-4 lg:px-6">
-          <button onClick={() => setMobileOpen(true)} className="lg:hidden text-muted-foreground hover:text-foreground" aria-label="Open menu">
-            <Menu className="h-5 w-5" />
-          </button>
-          <span className="text-sm font-medium text-muted-foreground">Developer Tools</span>
+        <header className="flex h-14 items-center justify-between gap-3 border-b border-border px-4 lg:px-6">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setMobileOpen(true)} className="lg:hidden text-muted-foreground hover:text-foreground" aria-label="Open menu">
+              <Menu className="h-5 w-5" />
+            </button>
+            <span className="text-sm font-medium text-muted-foreground">{t("common.devTools")}</span>
+          </div>
+          {/* Language Switcher */}
+          <div className="flex items-center gap-1 rounded-lg border border-border bg-secondary p-0.5">
+            <button
+              onClick={() => setLang("en")}
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                lang === "en" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              EN
+            </button>
+            <button
+              onClick={() => setLang("th")}
+              className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
+                lang === "th" ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              ไทย
+            </button>
+          </div>
         </header>
         <main className="flex-1 overflow-y-auto p-4 lg:p-6">
           <Outlet />

@@ -1,13 +1,12 @@
 import { SeoHead } from "@/components/SeoHead";
 import ColorCssUtilities from "@/tools/ColorCssUtilities";
+import { useTranslation } from "@/hooks/useI18n";
 
 export default function ColorCssUtilitiesPage() {
+  const { t } = useTranslation();
   return (
     <>
-      <SeoHead
-        title="Color & CSS Utilities | DevToolbox"
-        description="Free online Color Converter, CSS Gradient Generator, Box Shadow Builder, Clamp Calculator and Tailwind Color Matcher for frontend developers."
-      />
+      <SeoHead title={t("colorCss.title")} description={t("colorCss.seoDesc")} />
       <ColorCssUtilities />
     </>
   );

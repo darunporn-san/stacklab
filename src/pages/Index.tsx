@@ -1,19 +1,19 @@
 import { Link } from "react-router-dom";
 import { SeoHead } from "../components/SeoHead";
 import { tools } from "../lib/tools";
+import { useTranslation } from "@/hooks/useI18n";
 
 const Index = () => {
+  const { t } = useTranslation();
   return (
     <article className="animate-fade-in">
       <SeoHead
-        title="Free Online Developer Tools"
-        description="A collection of essential developer tools: JSON formatter, JWT decoder, Base64 encoder, regex tester, UUID generator, timestamp converter, and curl to fetch converter. All running locally in your browser."
+        title={t("index.seoTitle")}
+        description={t("index.seoDesc")}
       />
       <div className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">Developer Toolbox</h1>
-        <p className="mt-2 text-muted-foreground">
-          Free, fast, and private developer utilities. Everything runs locally in your browser — no data is ever sent to a server.
-        </p>
+        <h1 className="text-3xl font-bold tracking-tight">{t("index.title")}</h1>
+        <p className="mt-2 text-muted-foreground">{t("index.subtitle")}</p>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -27,8 +27,8 @@ const Index = () => {
               <tool.icon className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <h2 className="font-semibold text-card-foreground group-hover:text-primary transition-colors">{tool.label}</h2>
-              <p className="mt-1 text-xs text-muted-foreground">Open tool →</p>
+              <h2 className="font-semibold text-card-foreground group-hover:text-primary transition-colors">{t(tool.labelKey)}</h2>
+              <p className="mt-1 text-xs text-muted-foreground">{t("common.openTool")}</p>
             </div>
           </Link>
         ))}
