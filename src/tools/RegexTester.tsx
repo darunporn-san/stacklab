@@ -32,6 +32,12 @@ export default function RegexTester() {
     }
   }, [pattern, flags, testText]);
 
+  const loadExample = () => {
+    setPattern("\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}\\b");
+    setFlags("gi");
+    setTestText("Contact us at support@example.com or sales@company.org.\nInvalid emails: @broken, user@, hello@.com\nValid: admin@devtoolbox.io, test.user+tag@gmail.com");
+  };
+
   return (
     <div>
       <div className="space-y-4">
@@ -61,6 +67,9 @@ export default function RegexTester() {
               </button>
             ))}
           </div>
+          <button onClick={loadExample} className="rounded-md border border-border bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
+            Load Example
+          </button>
         </div>
         {error && <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">{error}</div>}
         <div className="space-y-1">

@@ -95,9 +95,14 @@ export default function CurlToFetch() {
             className="h-64 w-full resize-none rounded-lg border border-border bg-code p-4 font-mono text-sm text-code-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
             spellCheck={false}
           />
-          <button onClick={convert} className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
-            Convert
-          </button>
+          <div className="flex gap-2">
+            <button onClick={convert} className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90">
+              Convert
+            </button>
+            <button onClick={() => { setInput(`curl -X POST "https://api.example.com/users" \\\n  -H "Content-Type: application/json" \\\n  -H "Authorization: Bearer sk-abc123" \\\n  -d '{"name": "John Doe", "email": "john@example.com", "role": "admin"}'`); }} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
+              Load Example
+            </button>
+          </div>
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">

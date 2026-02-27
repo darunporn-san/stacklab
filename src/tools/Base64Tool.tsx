@@ -6,6 +6,13 @@ export default function Base64Tool() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
 
+  const loadExample = () => {
+    setInput('{"name":"DevToolbox","version":"2.0","features":["base64","json","jwt"]}');
+    setOutput("");
+    setError("");
+  };
+
+
   const encode = () => {
     try {
       setOutput(btoa(unescape(encodeURIComponent(input))));
@@ -38,6 +45,9 @@ export default function Base64Tool() {
             </button>
             <button onClick={decode} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
               Decode
+            </button>
+            <button onClick={loadExample} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
+              Load Example
             </button>
           </div>
         </div>

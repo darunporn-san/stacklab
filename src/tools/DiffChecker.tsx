@@ -76,6 +76,15 @@ export default function DiffCheckerTool() {
           </label>
         ))}
         <button
+          onClick={() => {
+            setOriginal('{\n  "name": "DevToolbox",\n  "version": "1.0.0",\n  "features": ["json", "diff"],\n  "author": "dev"\n}');
+            setModified('{\n  "name": "DevToolbox",\n  "version": "2.0.0",\n  "features": ["json", "diff", "jwt"],\n  "author": "dev",\n  "license": "MIT"\n}');
+          }}
+          className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground hover:bg-muted"
+        >
+          Load Example
+        </button>
+        <button
           onClick={() => { setOriginal(""); setModified(""); }}
           className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground hover:bg-muted"
         >
