@@ -16,6 +16,7 @@ import {
   GitCompare,
   TreesIcon,
   Sparkles,
+  Palette,
 } from "lucide-react";
 
 export interface ToolItem {
@@ -87,6 +88,13 @@ export const toolCategories: ToolCategory[] = [
       { id: "timestamp-converter", label: "Timestamp Converter", icon: Clock, path: "/timestamp-converter" },
       { id: "svg-optimizer", label: "SVG Optimizer", icon: FileCode, path: "/svg-optimizer" },
       { id: "image-converter", label: "Image Converter", icon: Image, path: "/image-converter" },
+    ],
+  },
+  {
+    label: "Color & CSS",
+    icon: Palette,
+    tools: [
+      { id: "color-css-utilities", label: "Color & CSS Utilities", icon: Palette, path: "/color-css-utilities" },
     ],
   },
   {
