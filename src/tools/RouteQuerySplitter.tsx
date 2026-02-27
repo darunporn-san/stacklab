@@ -5,8 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Copy, Globe, FolderTree, Search, ChevronDown, FileJson, Zap } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Copy, Globe, FolderTree, Search, ChevronDown, FileJson, Zap, Code2 } from "lucide-react";
 import { parseUrl } from "@/lib/urlParser";
+import { buildBaseUrl, generateFetchCode, generateAxiosCode } from "@/lib/queryCodeGenerator";
+import { CopyButton } from "@/components/CopyButton";
 import { useToast } from "@/hooks/use-toast";
 
 const EXAMPLE_URL = "https://api.example.com/v1/users/${userId}/posts/:postId?page=2&limit=10&active=true&tag=null&search=hello+world";
@@ -179,6 +182,50 @@ export default function RouteQuerySplitter() {
               )}
             </CardContent>
           </Card>
+
+          {/* Query Code Generator */}
+          {parsed.queryParams.length > 0 && (() => {
+            const baseUrl = buildBaseUrl(parsed.protocol, parsed.host, parsed.fullPath);
+            const fetchCode = generateFetchCode(baseUrl, parsed.queryParams);
+            const axiosCode = generateAxiosCode(baseUrl, parsed.queryParams);
+            return (
+              <Card>
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Code2 className="h-4 w-4 text-primary" /> Query Code Generator
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Tabs defaultValue="fetch">
+                    <TabsList className="mb-3">
+                      <TabsTrigger value="fetch">Fetch</TabsTrigger>
+                      <TabsTrigger value="axios">Axios</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="fetch">
+                      <div className="relative rounded-lg border border-border bg-muted/50">
+                        <pre className="font-mono text-xs p-4 overflow-x-auto whitespace-pre-wrap break-all">
+                          {fetchCode}
+                        </pre>
+                        <div className="flex justify-end border-t border-border px-3 py-2">
+                          <CopyButton text={fetchCode} />
+                        </div>
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="axios">
+                      <div className="relative rounded-lg border border-border bg-muted/50">
+                        <pre className="font-mono text-xs p-4 overflow-x-auto whitespace-pre-wrap break-all">
+                          {axiosCode}
+                        </pre>
+                        <div className="flex justify-end border-t border-border px-3 py-2">
+                          <CopyButton text={axiosCode} />
+                        </div>
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
+              </Card>
+            );
+          })()}
 
           {/* Raw JSON */}
           <Card>
