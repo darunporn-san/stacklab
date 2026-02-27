@@ -6,9 +6,17 @@ export default function Base64Tool() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
 
-  const loadExample = () => {
-    setInput('{"name":"DevToolbox","version":"2.0","features":["base64","json","jwt"]}');
-    setOutput("");
+  const loadEncodeExample = () => {
+    const sample = '{"name":"DevToolbox","version":"2.0","features":["base64","json","jwt"]}';
+    setInput(sample);
+    setOutput(btoa(unescape(encodeURIComponent(sample))));
+    setError("");
+  };
+
+  const loadDecodeExample = () => {
+    const encoded = "eyJuYW1lIjoiRGV2VG9vbGJveCIsInZlcnNpb24iOiIyLjAiLCJmZWF0dXJlcyI6WyJiYXNlNjQiLCJqc29uIiwiand0Il19";
+    setInput(encoded);
+    setOutput(decodeURIComponent(escape(atob(encoded))));
     setError("");
   };
 
@@ -46,8 +54,11 @@ export default function Base64Tool() {
             <button onClick={decode} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
               Decode
             </button>
-            <button onClick={loadExample} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
-              Load Example
+            <button onClick={loadEncodeExample} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
+              Encode Example
+            </button>
+            <button onClick={loadDecodeExample} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
+              Decode Example
             </button>
           </div>
         </div>
