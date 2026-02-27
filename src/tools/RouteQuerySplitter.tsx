@@ -8,7 +8,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Copy, Globe, FolderTree, Search, ChevronDown, FileJson, Zap, Code2 } from "lucide-react";
 import { parseUrl } from "@/lib/urlParser";
-import { buildBaseUrl, generateFetchCode, generateAxiosCode } from "@/lib/queryCodeGenerator";
+import { buildBaseUrl, generateFetchURLSearchParams, generateFetchURL, generateAxiosCode } from "@/lib/queryCodeGenerator";
 import { CopyButton } from "@/components/CopyButton";
 import { useToast } from "@/hooks/use-toast";
 
@@ -186,7 +186,8 @@ export default function RouteQuerySplitter() {
           {/* Query Code Generator */}
           {parsed.queryParams.length > 0 && (() => {
             const baseUrl = buildBaseUrl(parsed.protocol, parsed.host, parsed.fullPath);
-            const fetchCode = generateFetchCode(baseUrl, parsed.queryParams);
+            const fetchParamsCode = generateFetchURLSearchParams(baseUrl, parsed.queryParams);
+            const fetchUrlCode = generateFetchURL(baseUrl, parsed.queryParams);
             const axiosCode = generateAxiosCode(baseUrl, parsed.queryParams);
             return (
               <Card>
@@ -202,17 +203,33 @@ export default function RouteQuerySplitter() {
                       <TabsTrigger value="axios">Axios</TabsTrigger>
                     </TabsList>
                     <TabsContent value="fetch">
-                      <div className="relative rounded-lg border border-border bg-muted/50">
-                        <pre className="font-mono text-xs p-4 overflow-x-auto whitespace-pre-wrap break-all">
-                          {fetchCode}
-                        </pre>
-                        <div className="flex justify-end border-t border-border px-3 py-2">
-                          <CopyButton text={fetchCode} />
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-xs font-medium text-muted-foreground mb-2">URLSearchParams</p>
+                          <div className="rounded-lg border border-border bg-muted/50">
+                            <pre className="font-mono text-xs p-4 overflow-x-auto whitespace-pre-wrap break-all">
+                              {fetchParamsCode}
+                            </pre>
+                            <div className="flex justify-end border-t border-border px-3 py-2">
+                              <CopyButton text={fetchParamsCode} />
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-xs font-medium text-muted-foreground mb-2">new URL()</p>
+                          <div className="rounded-lg border border-border bg-muted/50">
+                            <pre className="font-mono text-xs p-4 overflow-x-auto whitespace-pre-wrap break-all">
+                              {fetchUrlCode}
+                            </pre>
+                            <div className="flex justify-end border-t border-border px-3 py-2">
+                              <CopyButton text={fetchUrlCode} />
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </TabsContent>
                     <TabsContent value="axios">
-                      <div className="relative rounded-lg border border-border bg-muted/50">
+                      <div className="rounded-lg border border-border bg-muted/50">
                         <pre className="font-mono text-xs p-4 overflow-x-auto whitespace-pre-wrap break-all">
                           {axiosCode}
                         </pre>
