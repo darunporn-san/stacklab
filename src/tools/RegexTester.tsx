@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
 import RegexRuleBuilder from "./RegexRuleBuilder";
 import ThaiValidationMode from "./ThaiValidationMode";
+import FormWorkflow from "./FormWorkflow";
 import { useTranslation } from "@/hooks/useI18n";
 
-type Mode = "tester" | "builder" | "thai";
+type Mode = "tester" | "builder" | "thai" | "form";
 
 export default function RegexTester() {
   const { t } = useTranslation();
@@ -47,6 +48,7 @@ export default function RegexTester() {
   const modeButtons: { key: Mode; labelKey: string }[] = [
     { key: "tester", labelKey: "regex.regexTester" },
     { key: "builder", labelKey: "regex.ruleBuilder" },
+    { key: "form", labelKey: "regex.formWorkflow" },
     { key: "thai", labelKey: "regex.thaiMode" },
   ];
 
@@ -67,7 +69,9 @@ export default function RegexTester() {
         ))}
       </div>
 
-      {mode === "builder" ? (
+      {mode === "form" ? (
+        <FormWorkflow />
+      ) : mode === "builder" ? (
         <RegexRuleBuilder />
       ) : mode === "thai" ? (
         <ThaiValidationMode />
@@ -124,7 +128,6 @@ export default function RegexTester() {
                 {flags.includes("u") && <span className="text-xs bg-primary/10 text-primary rounded px-1.5 py-0.5 font-mono">{t("regex.unicodeMode")}</span>}
               </div>
 
-              {/* Highlighted matches */}
               <div className="rounded-lg border border-border bg-code p-4 font-mono text-sm whitespace-pre-wrap break-all">
                 {Array.isArray(highlighted) && highlighted.map((seg, i) =>
                   seg.match ? (
@@ -137,7 +140,6 @@ export default function RegexTester() {
                 )}
               </div>
 
-              {/* Match Details */}
               {Array.isArray(matches) && matches.length > 0 && matches.length <= 20 && (
                 <div className="rounded-lg border border-border bg-card p-3">
                   <h4 className="text-xs font-semibold text-muted-foreground mb-2">{t("regex.matchDetails")}</h4>
