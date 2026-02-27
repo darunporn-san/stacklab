@@ -17,6 +17,7 @@ import {
   TreesIcon,
   Sparkles,
   Palette,
+  ShieldCheck,
 } from "lucide-react";
 
 export interface ToolItem {
@@ -66,6 +67,7 @@ export const toolCategories: ToolCategory[] = [
     label: "Text & Code", labelKey: "nav.textCode", icon: CaseSensitive,
     tools: [
       { id: "regex-tester", label: "Regex Tester", labelKey: "tools.regexTester", icon: Regex, path: "/regex-tester" },
+      { id: "form-validation", label: "Form Validation", labelKey: "tools.formValidation", icon: ShieldCheck, path: "/form-validation" },
       { id: "case-converter", label: "Case Converter", labelKey: "tools.caseConverter", icon: CaseSensitive, path: "/case-converter" },
     ],
   },

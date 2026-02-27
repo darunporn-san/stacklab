@@ -52,6 +52,14 @@ const en = {
     colorCssUtilities: "Color & CSS Utilities",
     responsivePlayground: "Responsive Playground",
     layoutLab: "Layout Lab",
+    formValidation: "Form Validation",
+  },
+  // Form Validation page
+  formValidation: {
+    title: "Form Validation Workflow",
+    subtitle: "Build multi-field form validation visually — define fields, set rules, simulate, and export production-ready code.",
+    seoTitle: "Form Validation Workflow Builder",
+    seoDesc: "Build multi-field form validation with visual rule builder, cross-field logic, simulation, and export to Zod, Yup, React Hook Form.",
   },
   // Index page
   index: {

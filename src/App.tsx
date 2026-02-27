@@ -26,6 +26,7 @@ import JsonTreeViewerPage from "./pages/JsonTreeViewerPage";
 import SmartJsonToTypescriptPage from "./pages/SmartJsonToTypescriptPage";
 import RouteQuerySplitterPage from "./pages/RouteQuerySplitterPage";
 import ColorCssUtilitiesPage from "./pages/ColorCssUtilitiesPage";
+import FormValidationPage from "./pages/FormValidationPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -60,6 +61,7 @@ const App = () => (
                 <Route path="/smart-json-to-typescript" element={<SmartJsonToTypescriptPage />} />
                 <Route path="/route-query-splitter" element={<RouteQuerySplitterPage />} />
                 <Route path="/color-css-utilities" element={<ColorCssUtilitiesPage />} />
+                <Route path="/form-validation" element={<FormValidationPage />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

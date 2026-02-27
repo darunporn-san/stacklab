@@ -1,10 +1,9 @@
 import { useState, useMemo } from "react";
 import RegexRuleBuilder from "./RegexRuleBuilder";
 import ThaiValidationMode from "./ThaiValidationMode";
-import FormWorkflow from "./FormWorkflow";
 import { useTranslation } from "@/hooks/useI18n";
 
-type Mode = "tester" | "builder" | "thai" | "form";
+type Mode = "tester" | "builder" | "thai";
 
 export default function RegexTester() {
   const { t } = useTranslation();
@@ -48,7 +47,6 @@ export default function RegexTester() {
   const modeButtons: { key: Mode; labelKey: string }[] = [
     { key: "tester", labelKey: "regex.regexTester" },
     { key: "builder", labelKey: "regex.ruleBuilder" },
-    { key: "form", labelKey: "regex.formWorkflow" },
     { key: "thai", labelKey: "regex.thaiMode" },
   ];
 
@@ -69,9 +67,7 @@ export default function RegexTester() {
         ))}
       </div>
 
-      {mode === "form" ? (
-        <FormWorkflow />
-      ) : mode === "builder" ? (
+      {mode === "builder" ? (
         <RegexRuleBuilder />
       ) : mode === "thai" ? (
         <ThaiValidationMode />
