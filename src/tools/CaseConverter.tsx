@@ -86,6 +86,15 @@ export default function CaseConverterTool() {
             </span>
           )}
         </div>
+        <div className="flex items-center justify-between">
+          <span></span>
+          <button
+            onClick={() => setInput("my variable name example\nget user profile data\nconvert this text to case")}
+            className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-muted"
+          >
+            Load Example
+          </button>
+        </div>
         <textarea
           value={input}
           onChange={(e) => setInput(e.target.value)}

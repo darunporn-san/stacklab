@@ -50,6 +50,9 @@ export default function TimestampConverter() {
             <button onClick={now} className="rounded-md border border-border bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-muted">
               Now
             </button>
+            <button onClick={() => setTimestamp("1700000000")} className="rounded-md border border-border bg-secondary px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-muted">
+              Load Example
+            </button>
           </div>
           {parsedFromTimestamp && (
             "error" in parsedFromTimestamp ? (

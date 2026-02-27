@@ -105,7 +105,15 @@ export default function SvgOptimizerTool() {
               </button>
             )}
           </div>
-          <FileDropZone accept=".svg" onFile={handleFile} />
+          <div className="flex items-center gap-2">
+            <FileDropZone accept=".svg" onFile={handleFile} />
+            <button
+              onClick={() => setRaw(`<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">\n  <!-- Example SVG icon -->\n  <rect x="20" y="20" width="160" height="160" rx="20" fill="#3b82f6" />\n  <circle cx="80" cy="90" r="15" fill="white" />\n  <circle cx="120" cy="90" r="15" fill="white" />\n  <path d="M70 130 Q100 160 130 130" stroke="white" stroke-width="6" fill="none" stroke-linecap="round" />\n</svg>`)}
+              className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-muted whitespace-nowrap"
+            >
+              Load Example
+            </button>
+          </div>
           <textarea
             value={raw}
             onChange={(e) => setRaw(e.target.value)}

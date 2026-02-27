@@ -98,6 +98,12 @@ export default function JsonToTypescriptTool() {
           </label>
         ))}
         <button
+          onClick={() => setInput(JSON.stringify({ id: 1, name: "Alice", email: "alice@example.com", isActive: true, roles: ["admin", "editor"], address: { street: "123 Main St", city: "Springfield", zip: "62704" } }, null, 2))}
+          className="rounded-md border border-border bg-secondary px-5 py-2 text-xs font-medium text-secondary-foreground transition-colors hover:bg-muted"
+        >
+          Load Example
+        </button>
+        <button
           onClick={generate}
           disabled={loading || !input.trim()}
           className="rounded-md bg-primary px-5 py-2 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50 ml-auto"

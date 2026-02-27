@@ -47,6 +47,9 @@ export default function JsonFormatter() {
             <button onClick={minify} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
               Minify
             </button>
+            <button onClick={() => setInput('{"users":[{"id":1,"name":"Alice","email":"alice@example.com","roles":["admin","editor"]},{"id":2,"name":"Bob","email":"bob@example.com","roles":["viewer"]}],"meta":{"total":2,"page":1}}')} className="rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted">
+              Load Example
+            </button>
           </div>
         </div>
         <div className="space-y-2">

@@ -8,8 +8,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function JwtDecoder() {
   const { token, setToken, decoded, error, status, secondsRemaining, clear } = useJWT();
 
+  const loadExample = () => {
+    // A sample JWT (expired, safe to share)
+    setToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyLCJleHAiOjE3MTYyMzkwMjIsInJvbGUiOiJhZG1pbiIsImVtYWlsIjoiam9obkBleGFtcGxlLmNvbSJ9.FpHMZQmSvIqNnqGqLcKJMJdnkFe-VYRPRBfMf44GNWQ");
+  };
+
   return (
     <div className="space-y-4">
+      <div className="flex items-center gap-2 mb-2">
+        <button onClick={loadExample} className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground transition-colors hover:bg-muted">
+          Load Example
+        </button>
+      </div>
       <TokenInput value={token} onChange={setToken} onClear={clear} status={status} />
 
       {error && (
