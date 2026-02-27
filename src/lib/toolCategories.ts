@@ -21,91 +21,75 @@ import {
 
 export interface ToolItem {
   id: string;
-  label: string;
+  labelKey: string; // i18n key
+  label: string; // fallback English
   icon: typeof Braces;
   path: string;
 }
 
 export interface ToolCategory {
-  label: string;
+  labelKey: string; // i18n key
+  label: string; // fallback
   icon: typeof Braces;
   tools: ToolItem[];
 }
 
 export const toolCategories: ToolCategory[] = [
   {
-    label: "JSON & Data",
-    icon: Braces,
+    label: "JSON & Data", labelKey: "nav.jsonData", icon: Braces,
     tools: [
-      // { id: "json-formatter", label: "JSON Formatter", icon: Braces, path: "/json-formatter" },
-      { id: "json-tree-viewer", label: "JSON Tree Viewer", icon: TreesIcon, path: "/json-tree-viewer" },
-      // { id: "json-to-typescript", label: "JSON → TypeScript", icon: FileType, path: "/json-to-typescript" },
-      { id: "smart-json-to-typescript", label: "JSON → TS Pro", icon: Sparkles, path: "/smart-json-to-typescript" },
+      { id: "json-tree-viewer", label: "JSON Tree Viewer", labelKey: "tools.jsonTreeViewer", icon: TreesIcon, path: "/json-tree-viewer" },
+      { id: "smart-json-to-typescript", label: "JSON → TS Pro", labelKey: "tools.smartJsonTs", icon: Sparkles, path: "/smart-json-to-typescript" },
     ],
   },
   {
-    label: "Encoding & Security",
-    icon: Key,
+    label: "Encoding & Security", labelKey: "nav.encodingSecurity", icon: Key,
     tools: [
-      { id: "jwt-decoder", label: "JWT Decoder", icon: Key, path: "/jwt-decoder" },
-      { id: "base64-encoder", label: "Base64 Encoder", icon: Binary, path: "/base64-encoder" },
-      { id: "uuid-generator", label: "UUID Generator", icon: Fingerprint, path: "/uuid-generator" },
+      { id: "jwt-decoder", label: "JWT Decoder", labelKey: "tools.jwtDecoder", icon: Key, path: "/jwt-decoder" },
+      { id: "base64-encoder", label: "Base64 Encoder", labelKey: "tools.base64Encoder", icon: Binary, path: "/base64-encoder" },
+      { id: "uuid-generator", label: "UUID Generator", labelKey: "tools.uuidGenerator", icon: Fingerprint, path: "/uuid-generator" },
     ],
   },
   {
-    label: "Comparison Tools",
-    icon: GitCompareArrows,
+    label: "Comparison Tools", labelKey: "nav.comparisonTools", icon: GitCompareArrows,
     tools: [
-      // { id: "diff-checker", label: "Diff Checker (Basic)", icon: GitCompareArrows, path: "/diff-checker" },
-      { id: "advanced-json-diff", label: "Advanced JSON Diff", icon: GitCompare, path: "/advanced-json-diff" },
+      { id: "advanced-json-diff", label: "Advanced JSON Diff", labelKey: "tools.advancedJsonDiff", icon: GitCompare, path: "/advanced-json-diff" },
     ],
   },
   {
-    label: "API & Network",
-    icon: Terminal,
+    label: "API & Network", labelKey: "nav.apiNetwork", icon: Terminal,
     tools: [
-      // { id: "curl-to-fetch", label: "Curl → Fetch", icon: Terminal, path: "/curl-to-fetch" },
-      {
-        id: "route-query-splitter",
-        label: "Route & Query Splitter",
-        icon: GitCompareArrows,
-        path: "/route-query-splitter",
-      },
+      { id: "route-query-splitter", label: "Route & Query Splitter", labelKey: "tools.routeQuerySplitter", icon: GitCompareArrows, path: "/route-query-splitter" },
     ],
   },
   {
-    label: "Text & Code",
-    icon: CaseSensitive,
+    label: "Text & Code", labelKey: "nav.textCode", icon: CaseSensitive,
     tools: [
-      { id: "regex-tester", label: "Regex Tester", icon: Regex, path: "/regex-tester" },
-      { id: "case-converter", label: "Case Converter", icon: CaseSensitive, path: "/case-converter" },
+      { id: "regex-tester", label: "Regex Tester", labelKey: "tools.regexTester", icon: Regex, path: "/regex-tester" },
+      { id: "case-converter", label: "Case Converter", labelKey: "tools.caseConverter", icon: CaseSensitive, path: "/case-converter" },
     ],
   },
   {
-    label: "Converters",
-    icon: Clock,
+    label: "Converters", labelKey: "nav.converters", icon: Clock,
     tools: [
-      { id: "timestamp-converter", label: "Timestamp Converter", icon: Clock, path: "/timestamp-converter" },
-      { id: "svg-optimizer", label: "SVG Optimizer", icon: FileCode, path: "/svg-optimizer" },
-      { id: "image-converter", label: "Image Converter", icon: Image, path: "/image-converter" },
+      { id: "timestamp-converter", label: "Timestamp Converter", labelKey: "tools.timestampConverter", icon: Clock, path: "/timestamp-converter" },
+      { id: "svg-optimizer", label: "SVG Optimizer", labelKey: "tools.svgOptimizer", icon: FileCode, path: "/svg-optimizer" },
+      { id: "image-converter", label: "Image Converter", labelKey: "tools.imageConverter", icon: Image, path: "/image-converter" },
     ],
   },
   {
-    label: "Color & CSS",
-    icon: Palette,
+    label: "Color & CSS", labelKey: "nav.colorCss", icon: Palette,
     tools: [
-      { id: "color-css-utilities", label: "Color & CSS Utilities", icon: Palette, path: "/color-css-utilities" },
+      { id: "color-css-utilities", label: "Color & CSS Utilities", labelKey: "tools.colorCssUtilities", icon: Palette, path: "/color-css-utilities" },
     ],
   },
   {
-    label: "Responsive Design",
-    icon: Monitor,
+    label: "Responsive Design", labelKey: "nav.responsiveDesign", icon: Monitor,
     tools: [
-      { id: "responsive-playground", label: "Responsive Playground", icon: Monitor, path: "/responsive-playground" },
-      { id: "responsive-layout-lab", label: "Layout Lab", icon: LayoutGrid, path: "/responsive-layout-lab" },
+      { id: "responsive-playground", label: "Responsive Playground", labelKey: "tools.responsivePlayground", icon: Monitor, path: "/responsive-playground" },
+      { id: "responsive-layout-lab", label: "Layout Lab", labelKey: "tools.layoutLab", icon: LayoutGrid, path: "/responsive-layout-lab" },
     ],
   },
 ];
 
-// Flat list for compatibility
 export const allTools = toolCategories.flatMap((c) => c.tools);

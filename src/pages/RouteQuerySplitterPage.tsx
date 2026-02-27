@@ -1,13 +1,12 @@
 import { SeoHead } from "@/components/SeoHead";
 import RouteQuerySplitter from "@/tools/RouteQuerySplitter";
+import { useTranslation } from "@/hooks/useI18n";
 
 export default function RouteQuerySplitterPage() {
+  const { t } = useTranslation();
   return (
     <>
-      <SeoHead
-        title="Route & Query Splitter | DevToolbox"
-        description="Parse URLs into structured components — extract path parameters, query parameters, protocol, host, and more."
-      />
+      <SeoHead title={t("routeQuery.title")} description={t("routeQuery.seoDesc")} />
       <RouteQuerySplitter />
     </>
   );
