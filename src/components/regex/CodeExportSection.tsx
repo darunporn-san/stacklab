@@ -9,7 +9,6 @@ interface Props {
 
 export function CodeExportSection({ pattern }: Props) {
   const [format, setFormat] = useState<ExportFormat>("typescript");
-
   const code = generateExport(pattern, format);
 
   return (
@@ -17,7 +16,7 @@ export function CodeExportSection({ pattern }: Props) {
       <div className="flex items-center justify-between">
         <h3 className="text-sm font-semibold text-foreground">Export Validation</h3>
         <Select value={format} onValueChange={(v) => setFormat(v as ExportFormat)}>
-          <SelectTrigger className="w-[180px] text-sm"><SelectValue /></SelectTrigger>
+          <SelectTrigger className="w-[160px] text-xs"><SelectValue /></SelectTrigger>
           <SelectContent>
             {exportFormats.map((f) => <SelectItem key={f.value} value={f.value}>{f.label}</SelectItem>)}
           </SelectContent>
@@ -28,7 +27,7 @@ export function CodeExportSection({ pattern }: Props) {
           <span className="text-xs font-medium text-muted-foreground">{exportFormats.find((f) => f.value === format)?.label}</span>
           <CopyButton text={code} />
         </div>
-        <pre className="overflow-auto p-4 font-mono text-xs text-code-foreground whitespace-pre-wrap">{code}</pre>
+        <pre className="overflow-auto p-4 font-mono text-xs text-code-foreground whitespace-pre-wrap max-h-60">{code}</pre>
       </div>
     </div>
   );
