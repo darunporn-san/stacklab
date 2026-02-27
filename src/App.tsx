@@ -21,6 +21,7 @@ import AdvancedJsonDiffPage from "./pages/AdvancedJsonDiffPage";
 import ImageConverterPage from "./pages/ImageConverterPage";
 import ResponsivePlaygroundPage from "./pages/ResponsivePlaygroundPage";
 import ResponsiveLayoutLabPage from "./pages/ResponsiveLayoutLabPage";
+import JsonTreeViewerPage from "./pages/JsonTreeViewerPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -36,6 +37,7 @@ const App = () => (
             <Route element={<AppLayout />}>
               <Route path="/" element={<Index />} />
               <Route path="/json-formatter" element={<JsonFormatterPage />} />
+              <Route path="/json-tree-viewer" element={<JsonTreeViewerPage />} />
               <Route path="/json-to-typescript" element={<JsonToTypescriptPage />} />
               <Route path="/jwt-decoder" element={<JwtDecoderPage />} />
               <Route path="/base64-encoder" element={<Base64Page />} />
