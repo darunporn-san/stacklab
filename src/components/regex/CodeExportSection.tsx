@@ -2,19 +2,21 @@ import { useState } from "react";
 import { generateExport, exportFormats, type ExportFormat } from "@/lib/regexExportGenerator";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { CopyButton } from "@/components/CopyButton";
+import { useTranslation } from "@/hooks/useI18n";
 
 interface Props {
   pattern: string;
 }
 
 export function CodeExportSection({ pattern }: Props) {
+  const { t } = useTranslation();
   const [format, setFormat] = useState<ExportFormat>("typescript");
   const code = generateExport(pattern, format);
 
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-semibold text-foreground">Export Validation</h3>
+        <h3 className="text-sm font-semibold text-foreground">{t("ruleBuilder.exportValidation")}</h3>
         <Select value={format} onValueChange={(v) => setFormat(v as ExportFormat)}>
           <SelectTrigger className="w-[160px] text-xs"><SelectValue /></SelectTrigger>
           <SelectContent>

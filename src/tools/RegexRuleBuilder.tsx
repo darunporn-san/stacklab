@@ -11,8 +11,10 @@ import { PresetSelector } from "@/components/regex/PresetSelector";
 import { CopyButton } from "@/components/CopyButton";
 import { AlertTriangle, Lightbulb, Upload, Shield } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslation } from "@/hooks/useI18n";
 
 export default function RegexRuleBuilder() {
+  const { t } = useTranslation();
   const [config, setConfig] = useState<RuleConfig>(createDefaultConfig());
   const [testInput, setTestInput] = useState("");
   const [showImport, setShowImport] = useState(false);
@@ -45,7 +47,7 @@ export default function RegexRuleBuilder() {
             onClick={() => setShowImport(!showImport)}
             className="flex items-center gap-1.5 rounded-md border border-border bg-secondary px-3 py-2 text-xs font-medium text-secondary-foreground hover:bg-muted transition-colors"
           >
-            <Upload className="h-3.5 w-3.5" /> Import
+            <Upload className="h-3.5 w-3.5" /> {t("ruleBuilder.import")}
           </button>
         </div>
 
@@ -54,12 +56,12 @@ export default function RegexRuleBuilder() {
             <textarea
               value={importJson}
               onChange={(e) => setImportJson(e.target.value)}
-              placeholder="Paste rule config JSON..."
+              placeholder={t("ruleBuilder.pasteJson")}
               className="h-24 w-full resize-none rounded-md border border-border bg-code p-2 font-mono text-xs text-code-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               spellCheck={false}
             />
             <button onClick={handleImport} className="rounded-md bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors">
-              Apply Config
+              {t("ruleBuilder.applyConfig")}
             </button>
           </div>
         )}
@@ -93,7 +95,7 @@ export default function RegexRuleBuilder() {
         {/* Generated Pattern */}
         <div className="rounded-xl border border-border bg-card p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-foreground">Generated Pattern</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t("ruleBuilder.generatedPattern")}</h3>
             <CopyButton text={pattern} />
           </div>
           <div className="rounded-lg border border-primary/30 bg-primary/5 px-4 py-3 font-mono text-sm text-primary break-all">
@@ -104,7 +106,7 @@ export default function RegexRuleBuilder() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Shield className="h-4 w-4 text-muted-foreground" />
-              <span className="text-xs text-muted-foreground">Complexity:</span>
+              <span className="text-xs text-muted-foreground">{t("ruleBuilder.complexity")}:</span>
               <span className={`text-xs font-semibold ${complexity.color}`}>{complexity.label}</span>
               <span className="text-xs text-muted-foreground">({complexity.score})</span>
             </div>
@@ -131,7 +133,7 @@ export default function RegexRuleBuilder() {
           {explanations.length > 0 && (
             <div className="space-y-1.5">
               <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
-                <Lightbulb className="h-3.5 w-3.5" /> Pattern Breakdown
+                <Lightbulb className="h-3.5 w-3.5" /> {t("ruleBuilder.patternBreakdown")}
               </div>
               <div className="max-h-32 overflow-auto space-y-1">
                 {explanations.map((ex, i) => (
@@ -155,7 +157,7 @@ export default function RegexRuleBuilder() {
         {/* JSON Config */}
         <div className="rounded-xl border border-border bg-card p-4 space-y-3">
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-foreground">Rule Config (JSON)</h3>
+            <h3 className="text-sm font-semibold text-foreground">{t("ruleBuilder.ruleConfigJson")}</h3>
             <CopyButton text={JSON.stringify(config, null, 2)} />
           </div>
           <pre className="overflow-auto rounded-lg bg-code p-3 font-mono text-[11px] text-code-foreground max-h-32">
