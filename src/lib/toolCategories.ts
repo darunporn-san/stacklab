@@ -63,8 +63,13 @@ export const toolCategories: ToolCategory[] = [
     label: "API & Network",
     icon: Terminal,
     tools: [
-      { id: "curl-to-fetch", label: "Curl → Fetch", icon: Terminal, path: "/curl-to-fetch" },
-      { id: "route-query-splitter", label: "Route & Query Splitter", icon: GitCompareArrows, path: "/route-query-splitter" },
+      // { id: "curl-to-fetch", label: "Curl → Fetch", icon: Terminal, path: "/curl-to-fetch" },
+      {
+        id: "route-query-splitter",
+        label: "Route & Query Splitter",
+        icon: GitCompareArrows,
+        path: "/route-query-splitter",
+      },
     ],
   },
   {
