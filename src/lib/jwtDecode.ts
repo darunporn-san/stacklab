@@ -27,9 +27,15 @@ export interface DecodedJwt {
 export type TokenStatus = "valid" | "expired" | "near-expiry" | "malformed" | "no-expiry";
 
 function base64UrlDecode(str: string): string {
-  const base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  // Normalize base64url → base64
+  let base64 = str.replace(/-/g, "+").replace(/_/g, "/");
+  // Strip any existing padding then re-pad
+  base64 = base64.replace(/=+$/, "");
   const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
-  return atob(padded);
+  // Decode to binary string then convert to UTF-8
+  const binary = atob(padded);
+  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
 }
 
 export function decodeJwt(token: string): DecodedJwt {
