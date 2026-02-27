@@ -51,6 +51,13 @@ const th: Translations = {
     colorCssUtilities: "Color & CSS Utilities",
     responsivePlayground: "Responsive Playground",
     layoutLab: "Layout Lab",
+    formValidation: "Form Validation",
+  },
+  formValidation: {
+    title: "Form Validation Workflow",
+    subtitle: "สร้าง form validation หลายฟิลด์แบบภาพ — กำหนดฟิลด์ ตั้งกฎ จำลอง และ export โค้ดพร้อมใช้งาน",
+    seoTitle: "ตัวสร้าง Form Validation Workflow",
+    seoDesc: "สร้าง form validation หลายฟิลด์พร้อม rule builder, cross-field logic, simulation และ export เป็น Zod, Yup, React Hook Form",
   },
   index: {
     title: "กล่องเครื่องมือนักพัฒนา",
