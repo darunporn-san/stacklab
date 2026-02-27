@@ -17,6 +17,7 @@ import JsonToTypescriptPage from "./pages/JsonToTypescriptPage";
 import CaseConverterPage from "./pages/CaseConverterPage";
 import SvgOptimizerPage from "./pages/SvgOptimizerPage";
 import DiffCheckerPage from "./pages/DiffCheckerPage";
+import AdvancedJsonDiffPage from "./pages/AdvancedJsonDiffPage";
 import ImageConverterPage from "./pages/ImageConverterPage";
 import ResponsivePlaygroundPage from "./pages/ResponsivePlaygroundPage";
 import ResponsiveLayoutLabPage from "./pages/ResponsiveLayoutLabPage";
@@ -45,6 +46,7 @@ const App = () => (
               <Route path="/case-converter" element={<CaseConverterPage />} />
               <Route path="/svg-optimizer" element={<SvgOptimizerPage />} />
               <Route path="/diff-checker" element={<DiffCheckerPage />} />
+              <Route path="/advanced-json-diff" element={<AdvancedJsonDiffPage />} />
               <Route path="/image-converter" element={<ImageConverterPage />} />
               <Route path="/responsive-playground" element={<ResponsivePlaygroundPage />} />
               <Route path="/responsive-layout-lab" element={<ResponsiveLayoutLabPage />} />

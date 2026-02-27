@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import { Menu, X, Wrench } from "lucide-react";
-import { tools } from "../lib/tools";
+import { toolCategories } from "../lib/toolCategories";
 
 export default function AppLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -25,25 +25,35 @@ export default function AppLayout() {
         <button onClick={() => setMobileOpen(false)} className="absolute right-3 top-3.5 lg:hidden text-muted-foreground hover:text-foreground">
           <X className="h-5 w-5" />
         </button>
-        <nav aria-label="Tools" className="flex-1 overflow-y-auto p-2 space-y-0.5">
-          {tools.map((tool) => {
-            const isActive = location.pathname === tool.path;
-            return (
-              <Link
-                key={tool.id}
-                to={tool.path}
-                onClick={() => setMobileOpen(false)}
-                className={`flex w-full items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors ${
-                  isActive
-                    ? "bg-sidebar-accent text-sidebar-accent-foreground"
-                    : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
-                }`}
-              >
-                <tool.icon className={`h-4 w-4 ${isActive ? "text-primary" : ""}`} />
-                {tool.label}
-              </Link>
-            );
-          })}
+        <nav aria-label="Tools" className="flex-1 overflow-y-auto p-2 space-y-3">
+          {toolCategories.map((cat) => (
+            <div key={cat.label}>
+              <div className="flex items-center gap-2 px-3 py-1.5">
+                <cat.icon className="h-3.5 w-3.5 text-muted-foreground/70" />
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70">{cat.label}</span>
+              </div>
+              <div className="space-y-0.5">
+                {cat.tools.map((tool) => {
+                  const isActive = location.pathname === tool.path;
+                  return (
+                    <Link
+                      key={tool.id}
+                      to={tool.path}
+                      onClick={() => setMobileOpen(false)}
+                      className={`flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors ${
+                        isActive
+                          ? "bg-sidebar-accent text-sidebar-accent-foreground"
+                          : "text-sidebar-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-accent-foreground"
+                      }`}
+                    >
+                      <tool.icon className={`h-4 w-4 ${isActive ? "text-primary" : ""}`} />
+                      {tool.label}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </nav>
         <div className="border-t border-border p-4 text-xs text-muted-foreground">
           All tools run locally in your browser.
