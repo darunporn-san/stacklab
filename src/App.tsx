@@ -22,6 +22,7 @@ import ImageConverterPage from "./pages/ImageConverterPage";
 import ResponsivePlaygroundPage from "./pages/ResponsivePlaygroundPage";
 import ResponsiveLayoutLabPage from "./pages/ResponsiveLayoutLabPage";
 import JsonTreeViewerPage from "./pages/JsonTreeViewerPage";
+import SmartJsonToTypescriptPage from "./pages/SmartJsonToTypescriptPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
               <Route path="/image-converter" element={<ImageConverterPage />} />
               <Route path="/responsive-playground" element={<ResponsivePlaygroundPage />} />
               <Route path="/responsive-layout-lab" element={<ResponsiveLayoutLabPage />} />
+              <Route path="/smart-json-to-typescript" element={<SmartJsonToTypescriptPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
