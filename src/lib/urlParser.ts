@@ -64,13 +64,14 @@ export function parseUrl(raw: string): ParsedUrl {
     }
   }
 
-  // Detect path params
+  // Detect path params from RAW input (before URL encoding)
+  const rawPath = trimmed.split("?")[0];
   const pathParams: PathParam[] = [];
   const seen = new Set<string>();
   for (const { regex, type } of PATH_PARAM_PATTERNS) {
     let match: RegExpExecArray | null;
     const r = new RegExp(regex.source, regex.flags);
-    while ((match = r.exec(fullPath)) !== null) {
+    while ((match = r.exec(rawPath)) !== null) {
       const key = match[1];
       if (!seen.has(key)) {
         seen.add(key);
