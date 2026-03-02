@@ -333,11 +333,11 @@ export default function JsonTreeViewer() {
 
   const searchMatchSet = useMemo(() => new Set(searchResults.map(r => r.path)), [searchResults]);
 
-  // Auto-expand matching branches
+  // Auto-expand matching branches whenever search query or results change
   useEffect(() => {
-    if (searchResults.length === 0) return;
-    setExpandedPaths(prev => {
-      const next = new Set(prev);
+    if (!searchQuery.trim() || searchResults.length === 0) return;
+    setExpandedPaths(() => {
+      const next = new Set<string>(["root"]);
       for (const r of searchResults) {
         const parts = r.path.split(/\.|\[/);
         let p = "";
@@ -349,7 +349,7 @@ export default function JsonTreeViewer() {
       return next;
     });
     setCurrentMatchIndex(0);
-  }, [searchResults]);
+  }, [searchQuery, searchResults]);
 
   const currentMatchPath = searchResults[currentMatchIndex]?.path ?? null;
 
