@@ -15,6 +15,355 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Calendar, Clock, DollarSign, Monitor, Timer, Braces, RotateCcw, Smartphone, Tablet, MonitorIcon, Code, ChevronDown } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 
+/* ─────────────── Snippet Section (reusable) ─────────────── */
+interface Snippet { title: string; desc: string; code: string }
+
+function SnippetSection({ snippets }: { snippets: Snippet[] }) {
+  const [openItems, setOpenItems] = useState<Set<number>>(new Set());
+  const toggle = (i: number) => setOpenItems(p => { const n = new Set(p); n.has(i) ? n.delete(i) : n.add(i); return n; });
+
+  return (
+    <div className="mt-6 pt-6 border-t border-border space-y-2">
+      <div className="flex items-center gap-2 mb-3">
+        <Code className="w-4 h-4 text-primary" />
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Related JS Utils</h4>
+      </div>
+      {snippets.map((s, idx) => (
+        <Collapsible key={idx} open={openItems.has(idx)} onOpenChange={() => toggle(idx)}>
+          <CollapsibleTrigger asChild>
+            <button className="w-full flex items-center justify-between rounded-lg border border-border bg-muted/30 hover:bg-muted/60 px-4 py-2.5 text-left transition-colors">
+              <div className="flex items-center gap-3 min-w-0">
+                <Code className="w-3.5 h-3.5 text-primary shrink-0" />
+                <div className="min-w-0">
+                  <span className="font-mono text-sm font-semibold">{s.title}()</span>
+                  <p className="text-xs text-muted-foreground mt-0.5 truncate">{s.desc}</p>
+                </div>
+              </div>
+              <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 shrink-0 ml-2 ${openItems.has(idx) ? "rotate-180" : ""}`} />
+            </button>
+          </CollapsibleTrigger>
+          <CollapsibleContent className="mt-1">
+            <CodeBlock code={s.code} label={`${s.title}.js`} />
+          </CollapsibleContent>
+        </Collapsible>
+      ))}
+    </div>
+  );
+}
+
+/* ─────────────── Snippet Data ─────────────── */
+const snippetFormatDate: Snippet = {
+  title: "formatDate",
+  desc: "Formats a Date object into a locale-aware string using the built-in Intl.DateTimeFormat API.",
+  code: `/**
+ * Formats a date using Intl.DateTimeFormat.
+ *
+ * @param {Date|string|number} date - Date to format
+ * @param {string} locale - BCP 47 locale (default: "en-US")
+ * @param {object} options - Intl.DateTimeFormat options
+ * @returns {string} Formatted date string
+ */
+function formatDate(date, locale = "en-US", options = {}) {
+  const d = date instanceof Date ? date : new Date(date);
+  const defaults = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    ...options,
+  };
+  return new Intl.DateTimeFormat(locale, defaults).format(d);
+}
+
+// ── Example Usage ──
+console.log(formatDate(new Date()));
+// → "March 2, 2026"
+
+console.log(formatDate("2024-12-25", "th-TH"));
+// → "25 ธันวาคม 2567"
+
+console.log(formatDate(Date.now(), "en-GB", {
+  weekday: "long",
+  hour: "2-digit",
+  minute: "2-digit",
+}));
+// → "Monday, 02:30"`,
+};
+
+const snippetFormatCurrency: Snippet = {
+  title: "formatCurrency",
+  desc: "Formats a number as a currency string using the native Intl.NumberFormat API.",
+  code: `/**
+ * Formats a number as currency using Intl.NumberFormat.
+ *
+ * @param {number} amount - The amount to format
+ * @param {string} currency - ISO 4217 currency code
+ * @param {string} locale - BCP 47 locale (auto-detected)
+ * @returns {string} Formatted currency string
+ */
+function formatCurrency(amount, currency = "USD", locale) {
+  const localeMap = {
+    THB: "th-TH", USD: "en-US", EUR: "de-DE",
+    GBP: "en-GB", JPY: "ja-JP",
+  };
+  const resolvedLocale = locale || localeMap[currency] || "en-US";
+  return new Intl.NumberFormat(resolvedLocale, {
+    style: "currency",
+    currency,
+  }).format(amount);
+}
+
+// ── Example Usage ──
+console.log(formatCurrency(1234567.89, "THB"));
+// → "฿1,234,567.89"
+
+console.log(formatCurrency(99.5, "USD"));
+// → "$99.50"
+
+console.log(formatCurrency(1500, "EUR"));
+// → "1.500,00 €"`,
+};
+
+const snippetGetDeviceType: Snippet = {
+  title: "getDeviceType",
+  desc: "Detects whether the current viewport is mobile, tablet, or desktop based on window width.",
+  code: `/**
+ * Returns the device type based on viewport width.
+ *
+ * @param {number} width - Window inner width (default: current)
+ * @returns {"mobile"|"tablet"|"desktop"} Device category
+ */
+function getDeviceType(width) {
+  const w = width ?? window.innerWidth;
+  if (w < 640) return "mobile";
+  if (w < 1024) return "tablet";
+  return "desktop";
+}
+
+// ── Example Usage ──
+console.log(getDeviceType());       // "desktop" (depends on viewport)
+console.log(getDeviceType(375));     // "mobile"
+console.log(getDeviceType(768));     // "tablet"
+console.log(getDeviceType(1440));    // "desktop"
+
+// Live detection with resize listener:
+window.addEventListener("resize", () => {
+  const device = getDeviceType();
+  document.body.dataset.device = device;
+  console.log("Current device:", device);
+});`,
+};
+
+const snippetDebounce: Snippet = {
+  title: "debounce",
+  desc: "Delays execution until after a specified wait time has elapsed since the last invocation.",
+  code: `/**
+ * Creates a debounced version of a function.
+ * The function will only execute after \`delay\` ms
+ * of inactivity since the last call.
+ *
+ * @param {Function} fn - Function to debounce
+ * @param {number} delay - Delay in milliseconds
+ * @returns {Function} Debounced function with .cancel()
+ */
+function debounce(fn, delay = 300) {
+  let timer;
+  const debounced = (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+  debounced.cancel = () => clearTimeout(timer);
+  return debounced;
+}
+
+// ── Example Usage ──
+const handleSearch = debounce((query) => {
+  console.log("Searching for:", query);
+}, 500);
+
+document.querySelector("#search").addEventListener("input", (e) => {
+  handleSearch(e.target.value);
+});`,
+};
+
+const snippetThrottle: Snippet = {
+  title: "throttle",
+  desc: "Limits function execution to at most once every N milliseconds — ideal for scroll/resize handlers.",
+  code: `/**
+ * Creates a throttled version of a function.
+ * Guarantees at most one execution per \`limit\` ms.
+ *
+ * @param {Function} fn - Function to throttle
+ * @param {number} limit - Minimum interval in ms
+ * @returns {Function} Throttled function
+ */
+function throttle(fn, limit = 200) {
+  let waiting = false;
+  let lastArgs = null;
+  return (...args) => {
+    if (!waiting) {
+      fn(...args);
+      waiting = true;
+      setTimeout(() => {
+        waiting = false;
+        if (lastArgs) {
+          fn(...lastArgs);
+          lastArgs = null;
+        }
+      }, limit);
+    } else {
+      lastArgs = args;
+    }
+  };
+}
+
+// ── Example Usage ──
+const onScroll = throttle(() => {
+  console.log("Scroll position:", window.scrollY);
+}, 100);
+
+window.addEventListener("scroll", onScroll);`,
+};
+
+const snippetDeepClone: Snippet = {
+  title: "deepClone",
+  desc: "Deep clones any value using structuredClone with a safe JSON fallback for older environments.",
+  code: `/**
+ * Deep clones a value.
+ * Uses structuredClone if available, falls back to JSON.
+ *
+ * @param {*} obj - Value to clone
+ * @returns {*} Deep-cloned copy
+ */
+function deepClone(obj) {
+  if (typeof structuredClone === "function") {
+    return structuredClone(obj);
+  }
+  return JSON.parse(JSON.stringify(obj));
+}
+
+// ── Example Usage ──
+const original = { user: { name: "Alice", tags: ["admin"] } };
+const cloned = deepClone(original);
+cloned.user.tags.push("editor");
+
+console.log(original.user.tags); // ["admin"] — not mutated
+console.log(cloned.user.tags);   // ["admin", "editor"]`,
+};
+
+const snippetIsEmpty: Snippet = {
+  title: "isEmpty",
+  desc: "Checks if a value is empty — works with objects, arrays, strings, Maps, Sets, null, and undefined.",
+  code: `/**
+ * Checks whether a value is "empty".
+ * Handles: null, undefined, "", [], {}, Map, Set.
+ *
+ * @param {*} value - Value to check
+ * @returns {boolean} true if the value is empty
+ */
+function isEmpty(value) {
+  if (value == null) return true;
+  if (typeof value === "string") return value.trim().length === 0;
+  if (Array.isArray(value)) return value.length === 0;
+  if (value instanceof Map || value instanceof Set) return value.size === 0;
+  if (typeof value === "object") return Object.keys(value).length === 0;
+  return false;
+}
+
+// ── Example Usage ──
+console.log(isEmpty(null));      // true
+console.log(isEmpty(""));        // true
+console.log(isEmpty([]));        // true
+console.log(isEmpty({}));        // true
+console.log(isEmpty({ a: 1 }));  // false`,
+};
+
+const snippetRemoveNull: Snippet = {
+  title: "removeNullUndefined",
+  desc: "Recursively removes all null and undefined values from an object or array.",
+  code: `/**
+ * Recursively strips null and undefined from an object.
+ *
+ * @param {*} obj - Input value
+ * @returns {*} Cleaned copy
+ */
+function removeNullUndefined(obj) {
+  if (Array.isArray(obj)) {
+    return obj.filter((item) => item != null).map(removeNullUndefined);
+  }
+  if (obj && typeof obj === "object") {
+    return Object.fromEntries(
+      Object.entries(obj)
+        .filter(([, v]) => v != null)
+        .map(([k, v]) => [k, removeNullUndefined(v)])
+    );
+  }
+  return obj;
+}
+
+// ── Example Usage ──
+const dirty = { name: "Alice", age: null, address: { city: "Bangkok", zip: undefined } };
+console.log(removeNullUndefined(dirty));
+// { name: "Alice", address: { city: "Bangkok" } }`,
+};
+
+const snippetGroupBy: Snippet = {
+  title: "groupBy",
+  desc: "Groups an array of items by a key or callback function — like Lodash's _.groupBy.",
+  code: `/**
+ * Groups array elements by a key or function.
+ *
+ * @param {Array} arr - Array to group
+ * @param {string|Function} keyOrFn - Property name or grouping fn
+ * @returns {Object} Grouped result { key: [...items] }
+ */
+function groupBy(arr, keyOrFn) {
+  const fn = typeof keyOrFn === "function" ? keyOrFn : (item) => item[keyOrFn];
+  return arr.reduce((groups, item) => {
+    const key = fn(item);
+    (groups[key] ??= []).push(item);
+    return groups;
+  }, {});
+}
+
+// ── Example Usage ──
+const users = [
+  { name: "Alice", role: "admin" },
+  { name: "Bob", role: "user" },
+  { name: "Charlie", role: "admin" },
+];
+console.log(groupBy(users, "role"));
+// { admin: [...], user: [...] }`,
+};
+
+const snippetFlatten: Snippet = {
+  title: "flattenObject",
+  desc: "Flattens a deeply nested object into a single-level object with dot-notation keys.",
+  code: `/**
+ * Flattens a nested object into dot-notation keys.
+ *
+ * @param {Object} obj - Object to flatten
+ * @param {string} prefix - Key prefix (used in recursion)
+ * @returns {Object} Flattened key-value pairs
+ */
+function flattenObject(obj, prefix = "") {
+  const result = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const path = prefix ? \`\${prefix}.\${key}\` : key;
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      Object.assign(result, flattenObject(value, path));
+    } else {
+      result[path] = value;
+    }
+  }
+  return result;
+}
+
+// ── Example Usage ──
+const nested = { user: { name: "Alice", address: { city: "Bangkok" } } };
+console.log(flattenObject(nested));
+// { "user.name": "Alice", "user.address.city": "Bangkok" }`,
+};
+
 /* ─────────────── 1) Date Formatter ─────────────── */
 function DateFormatter() {
   const [date, setDate] = useState(new Date());
@@ -80,6 +429,7 @@ function DateFormatter() {
           </div>
         ))}
       </div>
+      <SnippetSection snippets={[snippetFormatDate]} />
     </div>
   );
 }
@@ -158,6 +508,7 @@ function CurrencyFormatter() {
           </div>
         ))}
       </div>
+      <SnippetSection snippets={[snippetFormatCurrency]} />
     </div>
   );
 }
@@ -223,6 +574,7 @@ function DeviceChecker() {
       <p className="text-xs text-muted-foreground text-center">
         Viewport: {size.w}px / 1920px ({Math.round((size.w / 1920) * 100)}%)
       </p>
+      <SnippetSection snippets={[snippetGetDeviceType]} />
     </div>
   );
 }
@@ -279,20 +631,8 @@ function DebounceThrottlePlayground() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-4">
         <div className="flex items-center gap-2">
-          <Button
-            variant={mode === "debounce" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setMode("debounce")}
-          >
-            Debounce
-          </Button>
-          <Button
-            variant={mode === "throttle" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setMode("throttle")}
-          >
-            Throttle
-          </Button>
+          <Button variant={mode === "debounce" ? "default" : "outline"} size="sm" onClick={() => setMode("debounce")}>Debounce</Button>
+          <Button variant={mode === "throttle" ? "default" : "outline"} size="sm" onClick={() => setMode("throttle")}>Throttle</Button>
         </div>
         <div className="flex items-center gap-2 flex-1 min-w-[200px]">
           <Label className="whitespace-nowrap">Delay: {delay}ms</Label>
@@ -334,17 +674,18 @@ function DebounceThrottlePlayground() {
           ? `Debounce waits until ${delay}ms after the last keystroke before firing.`
           : `Throttle fires at most once every ${delay}ms while typing.`}
       </p>
+      <SnippetSection snippets={[snippetDebounce, snippetThrottle]} />
     </div>
   );
 }
 
 /* ─────────────── 5) Object Tools ─────────────── */
-function flattenObject(obj: any, prefix = ""): Record<string, any> {
+function flattenObjectUtil(obj: any, prefix = ""): Record<string, any> {
   const result: Record<string, any> = {};
   for (const key of Object.keys(obj)) {
     const path = prefix ? `${prefix}.${key}` : key;
     if (obj[key] && typeof obj[key] === "object" && !Array.isArray(obj[key])) {
-      Object.assign(result, flattenObject(obj[key], path));
+      Object.assign(result, flattenObjectUtil(obj[key], path));
     } else {
       result[path] = obj[key];
     }
@@ -355,12 +696,7 @@ function flattenObject(obj: any, prefix = ""): Record<string, any> {
 function sortKeysDeep(obj: any): any {
   if (Array.isArray(obj)) return obj.map(sortKeysDeep);
   if (obj && typeof obj === "object") {
-    return Object.keys(obj)
-      .sort()
-      .reduce((acc: any, key) => {
-        acc[key] = sortKeysDeep(obj[key]);
-        return acc;
-      }, {});
+    return Object.keys(obj).sort().reduce((acc: any, key) => { acc[key] = sortKeysDeep(obj[key]); return acc; }, {});
   }
   return obj;
 }
@@ -379,47 +715,26 @@ function ObjectTools() {
     try {
       const obj = JSON.parse(input);
       let output: any;
-
       switch (operation) {
         case "pick": {
           const keys = fields.split(",").map((s) => s.trim()).filter(Boolean);
           output = {};
-          for (const k of keys) {
-            const parts = k.split(".");
-            let val = obj;
-            for (const p of parts) { val = val?.[p]; }
-            if (val !== undefined) output[k] = val;
-          }
+          for (const k of keys) { const parts = k.split("."); let val = obj; for (const p of parts) { val = val?.[p]; } if (val !== undefined) output[k] = val; }
           break;
         }
         case "omit": {
           const keys = fields.split(",").map((s) => s.trim()).filter(Boolean);
           output = JSON.parse(JSON.stringify(obj));
-          for (const k of keys) {
-            const parts = k.split(".");
-            let ref = output;
-            for (let i = 0; i < parts.length - 1; i++) ref = ref?.[parts[i]];
-            if (ref) delete ref[parts[parts.length - 1]];
-          }
+          for (const k of keys) { const parts = k.split("."); let ref = output; for (let i = 0; i < parts.length - 1; i++) ref = ref?.[parts[i]]; if (ref) delete ref[parts[parts.length - 1]]; }
           break;
         }
-        case "clone":
-          output = structuredClone(obj);
-          break;
-        case "flatten":
-          output = flattenObject(obj);
-          break;
-        case "sortKeys":
-          output = sortKeysDeep(obj);
-          break;
+        case "clone": output = structuredClone(obj); break;
+        case "flatten": output = flattenObjectUtil(obj); break;
+        case "sortKeys": output = sortKeysDeep(obj); break;
       }
-
       setResult(JSON.stringify(output, null, 2));
       setError("");
-    } catch (e: any) {
-      setError(e.message);
-      setResult("");
-    }
+    } catch (e: any) { setError(e.message); setResult(""); }
   };
 
   return (
@@ -463,414 +778,7 @@ function ObjectTools() {
         )}
         <Button onClick={process}>Run</Button>
       </div>
-    </div>
-  );
-}
-
-/* ─────────────── 6) JavaScript Utils Library ─────────────── */
-const jsSnippets = [
-  {
-    title: "debounce",
-    desc: "Delays execution until after a specified wait time has elapsed since the last invocation.",
-    code: `/**
- * Creates a debounced version of a function.
- * The function will only execute after \`delay\` ms
- * of inactivity since the last call.
- *
- * @param {Function} fn - Function to debounce
- * @param {number} delay - Delay in milliseconds
- * @returns {Function} Debounced function with .cancel()
- */
-function debounce(fn, delay = 300) {
-  let timer;
-  const debounced = (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), delay);
-  };
-  debounced.cancel = () => clearTimeout(timer);
-  return debounced;
-}
-
-// ── Example Usage ──
-const handleSearch = debounce((query) => {
-  console.log("Searching for:", query);
-  // fetch(\`/api/search?q=\${query}\`);
-}, 500);
-
-document.querySelector("#search").addEventListener("input", (e) => {
-  handleSearch(e.target.value);
-});`,
-  },
-  {
-    title: "throttle",
-    desc: "Limits function execution to at most once every N milliseconds — ideal for scroll/resize handlers.",
-    code: `/**
- * Creates a throttled version of a function.
- * Guarantees at most one execution per \`limit\` ms.
- *
- * @param {Function} fn - Function to throttle
- * @param {number} limit - Minimum interval in ms
- * @returns {Function} Throttled function
- */
-function throttle(fn, limit = 200) {
-  let waiting = false;
-  let lastArgs = null;
-  return (...args) => {
-    if (!waiting) {
-      fn(...args);
-      waiting = true;
-      setTimeout(() => {
-        waiting = false;
-        if (lastArgs) {
-          fn(...lastArgs);
-          lastArgs = null;
-        }
-      }, limit);
-    } else {
-      lastArgs = args;
-    }
-  };
-}
-
-// ── Example Usage ──
-const onScroll = throttle(() => {
-  console.log("Scroll position:", window.scrollY);
-}, 100);
-
-window.addEventListener("scroll", onScroll);`,
-  },
-  {
-    title: "deepClone",
-    desc: "Deep clones any value using structuredClone with a safe JSON fallback for older environments.",
-    code: `/**
- * Deep clones a value.
- * Uses structuredClone if available, falls back to JSON.
- *
- * @param {*} obj - Value to clone
- * @returns {*} Deep-cloned copy
- */
-function deepClone(obj) {
-  // structuredClone handles Date, Map, Set, ArrayBuffer, etc.
-  if (typeof structuredClone === "function") {
-    return structuredClone(obj);
-  }
-  // JSON fallback (loses Date objects, functions, undefined)
-  return JSON.parse(JSON.stringify(obj));
-}
-
-// ── Example Usage ──
-const original = { user: { name: "Alice", tags: ["admin"] } };
-const cloned = deepClone(original);
-cloned.user.tags.push("editor");
-
-console.log(original.user.tags); // ["admin"] — not mutated
-console.log(cloned.user.tags);   // ["admin", "editor"]`,
-  },
-  {
-    title: "formatDate",
-    desc: "Formats a Date object into a locale-aware string using the built-in Intl.DateTimeFormat API.",
-    code: `/**
- * Formats a date using Intl.DateTimeFormat.
- *
- * @param {Date|string|number} date - Date to format
- * @param {string} locale - BCP 47 locale (default: "en-US")
- * @param {object} options - Intl.DateTimeFormat options
- * @returns {string} Formatted date string
- */
-function formatDate(date, locale = "en-US", options = {}) {
-  const d = date instanceof Date ? date : new Date(date);
-  const defaults = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-    ...options,
-  };
-  return new Intl.DateTimeFormat(locale, defaults).format(d);
-}
-
-// ── Example Usage ──
-console.log(formatDate(new Date()));
-// → "March 2, 2026"
-
-console.log(formatDate("2024-12-25", "th-TH"));
-// → "25 ธันวาคม 2567"
-
-console.log(formatDate(Date.now(), "en-GB", {
-  weekday: "long",
-  hour: "2-digit",
-  minute: "2-digit",
-}));
-// → "Monday, 02:30"`,
-  },
-  {
-    title: "formatCurrency",
-    desc: "Formats a number as a currency string using the native Intl.NumberFormat API.",
-    code: `/**
- * Formats a number as currency using Intl.NumberFormat.
- *
- * @param {number} amount - The amount to format
- * @param {string} currency - ISO 4217 currency code
- * @param {string} locale - BCP 47 locale (auto-detected)
- * @returns {string} Formatted currency string
- */
-function formatCurrency(amount, currency = "USD", locale) {
-  const localeMap = {
-    THB: "th-TH", USD: "en-US", EUR: "de-DE",
-    GBP: "en-GB", JPY: "ja-JP",
-  };
-  const resolvedLocale = locale || localeMap[currency] || "en-US";
-  return new Intl.NumberFormat(resolvedLocale, {
-    style: "currency",
-    currency,
-  }).format(amount);
-}
-
-// ── Example Usage ──
-console.log(formatCurrency(1234567.89, "THB"));
-// → "฿1,234,567.89"
-
-console.log(formatCurrency(99.5, "USD"));
-// → "$99.50"
-
-console.log(formatCurrency(1500, "EUR"));
-// → "1.500,00 €"`,
-  },
-  {
-    title: "isEmpty",
-    desc: "Checks if a value is empty — works with objects, arrays, strings, Maps, Sets, null, and undefined.",
-    code: `/**
- * Checks whether a value is "empty".
- * Handles: null, undefined, "", [], {}, Map, Set.
- *
- * @param {*} value - Value to check
- * @returns {boolean} true if the value is empty
- */
-function isEmpty(value) {
-  if (value == null) return true;
-  if (typeof value === "string") return value.trim().length === 0;
-  if (Array.isArray(value)) return value.length === 0;
-  if (value instanceof Map || value instanceof Set) return value.size === 0;
-  if (typeof value === "object") return Object.keys(value).length === 0;
-  return false;
-}
-
-// ── Example Usage ──
-console.log(isEmpty(null));      // true
-console.log(isEmpty(""));        // true
-console.log(isEmpty("  "));      // true
-console.log(isEmpty([]));        // true
-console.log(isEmpty({}));        // true
-console.log(isEmpty({ a: 1 }));  // false
-console.log(isEmpty([1, 2]));    // false`,
-  },
-  {
-    title: "removeNullUndefined",
-    desc: "Recursively removes all null and undefined values from an object or array.",
-    code: `/**
- * Recursively strips null and undefined from an object.
- * Preserves arrays (cleaning their elements).
- *
- * @param {*} obj - Input value
- * @returns {*} Cleaned copy
- */
-function removeNullUndefined(obj) {
-  if (Array.isArray(obj)) {
-    return obj
-      .filter((item) => item != null)
-      .map(removeNullUndefined);
-  }
-  if (obj && typeof obj === "object") {
-    return Object.fromEntries(
-      Object.entries(obj)
-        .filter(([, v]) => v != null)
-        .map(([k, v]) => [k, removeNullUndefined(v)])
-    );
-  }
-  return obj;
-}
-
-// ── Example Usage ──
-const dirty = {
-  name: "Alice",
-  age: null,
-  address: { city: "Bangkok", zip: undefined },
-  tags: ["dev", null, "admin"],
-};
-
-console.log(removeNullUndefined(dirty));
-// {
-//   name: "Alice",
-//   address: { city: "Bangkok" },
-//   tags: ["dev", "admin"]
-// }`,
-  },
-  {
-    title: "groupBy",
-    desc: "Groups an array of items by a key or callback function — like Lodash's _.groupBy.",
-    code: `/**
- * Groups array elements by a key or function.
- *
- * @param {Array} arr - Array to group
- * @param {string|Function} keyOrFn - Property name or grouping fn
- * @returns {Object} Grouped result { key: [...items] }
- */
-function groupBy(arr, keyOrFn) {
-  const fn =
-    typeof keyOrFn === "function"
-      ? keyOrFn
-      : (item) => item[keyOrFn];
-
-  return arr.reduce((groups, item) => {
-    const key = fn(item);
-    (groups[key] ??= []).push(item);
-    return groups;
-  }, {});
-}
-
-// ── Example Usage ──
-const users = [
-  { name: "Alice", role: "admin" },
-  { name: "Bob", role: "user" },
-  { name: "Charlie", role: "admin" },
-  { name: "Dave", role: "user" },
-];
-
-console.log(groupBy(users, "role"));
-// {
-//   admin: [{ name: "Alice", ... }, { name: "Charlie", ... }],
-//   user:  [{ name: "Bob", ... }, { name: "Dave", ... }]
-// }
-
-// With a function:
-console.log(groupBy([1, 2, 3, 4, 5], (n) => n % 2 === 0 ? "even" : "odd"));
-// { odd: [1, 3, 5], even: [2, 4] }`,
-  },
-  {
-    title: "flattenObject",
-    desc: "Flattens a deeply nested object into a single-level object with dot-notation keys.",
-    code: `/**
- * Flattens a nested object into dot-notation keys.
- *
- * @param {Object} obj - Object to flatten
- * @param {string} prefix - Key prefix (used in recursion)
- * @returns {Object} Flattened key-value pairs
- */
-function flattenObject(obj, prefix = "") {
-  const result = {};
-  for (const [key, value] of Object.entries(obj)) {
-    const path = prefix ? \`\${prefix}.\${key}\` : key;
-    if (value && typeof value === "object" && !Array.isArray(value)) {
-      Object.assign(result, flattenObject(value, path));
-    } else {
-      result[path] = value;
-    }
-  }
-  return result;
-}
-
-// ── Example Usage ──
-const nested = {
-  user: {
-    name: "Alice",
-    address: {
-      city: "Bangkok",
-      geo: { lat: 13.75, lng: 100.52 },
-    },
-  },
-  active: true,
-};
-
-console.log(flattenObject(nested));
-// {
-//   "user.name": "Alice",
-//   "user.address.city": "Bangkok",
-//   "user.address.geo.lat": 13.75,
-//   "user.address.geo.lng": 100.52,
-//   "active": true
-// }`,
-  },
-  {
-    title: "getDeviceType",
-    desc: "Detects whether the current viewport is mobile, tablet, or desktop based on window width.",
-    code: `/**
- * Returns the device type based on viewport width.
- *
- * @param {number} width - Window inner width (default: current)
- * @returns {"mobile"|"tablet"|"desktop"} Device category
- */
-function getDeviceType(width) {
-  const w = width ?? window.innerWidth;
-  if (w < 640) return "mobile";
-  if (w < 1024) return "tablet";
-  return "desktop";
-}
-
-// ── Example Usage ──
-console.log(getDeviceType());       // "desktop" (depends on viewport)
-console.log(getDeviceType(375));     // "mobile"
-console.log(getDeviceType(768));     // "tablet"
-console.log(getDeviceType(1440));    // "desktop"
-
-// Live detection with resize listener:
-window.addEventListener("resize", () => {
-  const device = getDeviceType();
-  document.body.dataset.device = device;
-  console.log("Current device:", device);
-});`,
-  },
-];
-
-function JsUtilsLibrary() {
-  const [openItems, setOpenItems] = useState<Set<number>>(new Set());
-
-  const toggle = (idx: number) => {
-    setOpenItems((prev) => {
-      const next = new Set(prev);
-      if (next.has(idx)) next.delete(idx);
-      else next.add(idx);
-      return next;
-    });
-  };
-
-  const expandAll = () => setOpenItems(new Set(jsSnippets.map((_, i) => i)));
-  const collapseAll = () => setOpenItems(new Set());
-
-  return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div>
-          <h3 className="text-sm font-semibold">JavaScript Utils Library</h3>
-          <p className="text-xs text-muted-foreground">
-            {jsSnippets.length} production-ready utility functions — plain JS, no dependencies
-          </p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={expandAll}>Expand All</Button>
-          <Button variant="outline" size="sm" onClick={collapseAll}>Collapse All</Button>
-        </div>
-      </div>
-
-      <div className="space-y-2">
-        {jsSnippets.map((snippet, idx) => (
-          <Collapsible key={idx} open={openItems.has(idx)} onOpenChange={() => toggle(idx)}>
-            <CollapsibleTrigger asChild>
-              <button className="w-full flex items-center justify-between rounded-lg border border-border bg-muted/30 hover:bg-muted/60 px-4 py-3 text-left transition-colors">
-                <div className="flex items-center gap-3">
-                  <Code className="w-4 h-4 text-primary shrink-0" />
-                  <div>
-                    <span className="font-mono text-sm font-semibold">{snippet.title}()</span>
-                    <p className="text-xs text-muted-foreground mt-0.5">{snippet.desc}</p>
-                  </div>
-                </div>
-                <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 shrink-0 ${openItems.has(idx) ? "rotate-180" : ""}`} />
-              </button>
-            </CollapsibleTrigger>
-            <CollapsibleContent className="mt-1">
-              <CodeBlock code={snippet.code} label={`${snippet.title}.js`} />
-            </CollapsibleContent>
-          </Collapsible>
-        ))}
-      </div>
+      <SnippetSection snippets={[snippetDeepClone, snippetFlatten, snippetIsEmpty, snippetRemoveNull, snippetGroupBy]} />
     </div>
   );
 }
@@ -882,7 +790,6 @@ const tabs = [
   { id: "device", label: "Device Checker", icon: Monitor },
   { id: "debounce", label: "Debounce / Throttle", icon: Timer },
   { id: "object", label: "Object Tools", icon: Braces },
-  { id: "jsutils", label: "JS Utils Library", icon: Code },
 ] as const;
 
 export default function FrontendCoreUtilities() {
@@ -902,7 +809,6 @@ export default function FrontendCoreUtilities() {
         <TabsContent value="device"><DeviceChecker /></TabsContent>
         <TabsContent value="debounce"><DebounceThrottlePlayground /></TabsContent>
         <TabsContent value="object"><ObjectTools /></TabsContent>
-        <TabsContent value="jsutils"><JsUtilsLibrary /></TabsContent>
       </div>
     </Tabs>
   );
