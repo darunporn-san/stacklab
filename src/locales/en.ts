@@ -34,6 +34,7 @@ const en = {
     converters: "Converters",
     colorCss: "Color & CSS",
     responsiveDesign: "Responsive Design",
+    frontendCore: "Frontend Core Utilities",
   },
   // Tool names
   tools: {
@@ -53,6 +54,7 @@ const en = {
     responsivePlayground: "Responsive Playground",
     layoutLab: "Layout Lab",
     formValidation: "Form Validation",
+    frontendCoreUtilities: "Frontend Core Utilities",
   },
   // Form Validation page
   formValidation: {
