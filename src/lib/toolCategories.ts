@@ -18,6 +18,7 @@ import {
   Sparkles,
   Palette,
   ShieldCheck,
+  Wrench,
 } from "lucide-react";
 
 export interface ToolItem {
@@ -90,6 +91,12 @@ export const toolCategories: ToolCategory[] = [
     tools: [
       { id: "responsive-playground", label: "Responsive Playground", labelKey: "tools.responsivePlayground", icon: Monitor, path: "/responsive-playground" },
       { id: "responsive-layout-lab", label: "Layout Lab", labelKey: "tools.layoutLab", icon: LayoutGrid, path: "/responsive-layout-lab" },
+    ],
+  },
+  {
+    label: "Frontend Core Utilities", labelKey: "nav.frontendCore", icon: Wrench,
+    tools: [
+      { id: "frontend-core-utilities", label: "Frontend Core Utilities", labelKey: "tools.frontendCoreUtilities", icon: Wrench, path: "/frontend-core-utilities" },
     ],
   },
 ];

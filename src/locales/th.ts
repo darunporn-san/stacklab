@@ -34,6 +34,7 @@ const th: Translations = {
     converters: "ตัวแปลง",
     colorCss: "สีและ CSS",
     responsiveDesign: "การออกแบบ Responsive",
+    frontendCore: "เครื่องมือ Frontend หลัก",
   },
   tools: {
     jsonTreeViewer: "JSON Tree Viewer",
@@ -52,6 +53,7 @@ const th: Translations = {
     responsivePlayground: "Responsive Playground",
     layoutLab: "Layout Lab",
     formValidation: "Form Validation",
+    frontendCoreUtilities: "Frontend Core Utilities",
   },
   formValidation: {
     title: "Form Validation Workflow",

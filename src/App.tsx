@@ -27,6 +27,7 @@ import SmartJsonToTypescriptPage from "./pages/SmartJsonToTypescriptPage";
 import RouteQuerySplitterPage from "./pages/RouteQuerySplitterPage";
 import ColorCssUtilitiesPage from "./pages/ColorCssUtilitiesPage";
 import FormValidationPage from "./pages/FormValidationPage";
+import FrontendCoreUtilitiesPage from "./pages/FrontendCoreUtilitiesPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,6 +63,7 @@ const App = () => (
                 <Route path="/route-query-splitter" element={<RouteQuerySplitterPage />} />
                 <Route path="/color-css-utilities" element={<ColorCssUtilitiesPage />} />
                 <Route path="/form-validation" element={<FormValidationPage />} />
+                <Route path="/frontend-core-utilities" element={<FrontendCoreUtilitiesPage />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
