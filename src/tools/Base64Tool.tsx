@@ -42,6 +42,28 @@ export default function Base64Tool() {
     } catch (e: any) { setError("Invalid Base64 string"); }
   };
 
+  const isBase64 = (str: string): boolean => {
+    if (!str.trim()) return false;
+    // Check if string matches Base64 pattern and can be decoded
+    const base64Regex = /^[A-Za-z0-9+/]*={0,2}$/;
+    if (!base64Regex.test(str.trim())) return false;
+    try {
+      atob(str.trim());
+      return true;
+    } catch {
+      return false;
+    }
+  };
+
+  const autoDetect = () => {
+    if (!input.trim()) return;
+    if (isBase64(input)) {
+      decode();
+    } else {
+      encode();
+    }
+  };
+
   const swapInputOutput = () => {
     if (!output) return;
     setInput(output);
@@ -100,6 +122,15 @@ export default function Base64Tool() {
             >
               <Unlock className="h-3.5 w-3.5" />
               Decode
+            </button>
+            <button
+              onClick={autoDetect}
+              disabled={!input.trim()}
+              className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary px-4 py-2 text-sm font-medium text-secondary-foreground transition-colors hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Auto detect and encode/decode"
+            >
+              <Unlock className="h-3.5 w-3.5" />
+              Auto Detect
             </button>
             <div className="h-8 w-px bg-border self-center" />
             <button
