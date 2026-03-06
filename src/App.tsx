@@ -10,6 +10,7 @@ import Index from "./pages/Index";
 import JsonFormatterPage from "./pages/JsonFormatterPage";
 import JwtDecoderPage from "./pages/JwtDecoderPage";
 import Base64Page from "./pages/Base64Page";
+import UriEncoderDecoderPage from "./pages/UriEncoderDecoderPage";
 import RegexTesterPage from "./pages/RegexTesterPage";
 import UuidGeneratorPage from "./pages/UuidGeneratorPage";
 import TimestampConverterPage from "./pages/TimestampConverterPage";
@@ -48,6 +49,7 @@ const App = () => (
                 <Route path="/json-to-typescript" element={<JsonToTypescriptPage />} />
                 <Route path="/jwt-decoder" element={<JwtDecoderPage />} />
                 <Route path="/base64-encoder" element={<Base64Page />} />
+                <Route path="/uri-encoder-decoder" element={<UriEncoderDecoderPage />} />
                 <Route path="/regex-tester" element={<RegexTesterPage />} />
                 <Route path="/uuid-generator" element={<UuidGeneratorPage />} />
                 <Route path="/timestamp-converter" element={<TimestampConverterPage />} />

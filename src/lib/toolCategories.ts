@@ -19,6 +19,7 @@ import {
   Palette,
   ShieldCheck,
   Wrench,
+  Globe,
 } from "lucide-react";
 
 export interface ToolItem {
@@ -50,6 +51,7 @@ export const toolCategories: ToolCategory[] = [
       { id: "jwt-decoder", label: "JWT Decoder", labelKey: "tools.jwtDecoder", icon: Key, path: "/jwt-decoder" },
       { id: "base64-encoder", label: "Base64 Encoder", labelKey: "tools.base64Encoder", icon: Binary, path: "/base64-encoder" },
       { id: "uuid-generator", label: "UUID Generator", labelKey: "tools.uuidGenerator", icon: Fingerprint, path: "/uuid-generator" },
+      { id: "uri-encoder-decoder", label: "URI Encoder / Decoder", labelKey: "tools.uriEncoderDecoder", icon: Globe, path: "/uri-encoder-decoder" },
     ],
   },
   {

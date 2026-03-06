@@ -19,6 +19,9 @@ export function ColorConverterTab() {
   const color = useMemo(() => parseColor(input), [input]);
   const fmt = useMemo(() => detectFormat(input), [input]);
 
+  // hex value used by the color picker; falls back to #000000 when parsing fails
+  const colorHex = color ? rgbaToHex(color) : "#000000";
+
   const formats = useMemo(() => {
     if (!color) return null;
     return {
@@ -39,12 +42,20 @@ export function ColorConverterTab() {
     <div className="space-y-4 pt-4">
       <div className="space-y-2">
         <label className="text-sm font-medium text-foreground">Color Input</label>
-        <Input
-          value={input}
-          onChange={e => setInput(e.target.value)}
-          placeholder="#667eea, rgb(102,126,234), hsl(229,73%,66%)"
-          className="font-mono"
-        />
+        <div className="flex items-center gap-2">
+          <input
+            type="color"
+            value={colorHex}
+            onChange={e => setInput(e.target.value)}
+            className="h-8 w-8 rounded border border-border cursor-pointer p-0"
+          />
+          <Input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder="#667eea, rgb(102,126,234), hsl(229,73%,66%)"
+            className="font-mono"
+          />
+        </div>
         {fmt !== "unknown" && (
           <p className="text-xs text-muted-foreground">Detected: <span className="font-semibold text-foreground">{fmt.toUpperCase()}</span></p>
         )}
