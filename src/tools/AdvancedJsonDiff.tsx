@@ -36,6 +36,7 @@ export default function AdvancedJsonDiff() {
   const [selectedNode, setSelectedNode] = useState<DiffNode | null>(null);
   const [expandAll, setExpandAll] = useState(false);
   const [parseError, setParseError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const leftRef = useRef<HTMLTextAreaElement>(null);
   const rightRef = useRef<HTMLTextAreaElement>(null);
@@ -135,7 +136,22 @@ export default function AdvancedJsonDiff() {
 
         <div className={viewMode === "split" ? "grid gap-4 lg:grid-cols-2" : "space-y-3"}>
           <div className="space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground">Original JSON</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Original JSON</span>
+              <button
+                onClick={() => {
+                  try {
+                    const parsed = JSON.parse(original);
+                    setOriginal(JSON.stringify(parsed, null, 2));
+                  } catch (e) {
+                    // Optionally set a temporary error, but for now, do nothing
+                  }
+                }}
+                className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground hover:bg-muted transition-colors"
+              >
+                Format JSON
+              </button>
+            </div>
             <textarea
               ref={leftRef}
               value={original}
@@ -147,7 +163,22 @@ export default function AdvancedJsonDiff() {
             />
           </div>
           <div className="space-y-1.5">
-            <span className="text-xs font-medium text-muted-foreground">Modified JSON</span>
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-medium text-muted-foreground">Modified JSON</span>
+              <button
+                onClick={() => {
+                  try {
+                    const parsed = JSON.parse(modified);
+                    setModified(JSON.stringify(parsed, null, 2));
+                  } catch (e) {
+                    // Optionally set a temporary error, but for now, do nothing
+                  }
+                }}
+                className="rounded-md border border-border bg-secondary px-3 py-1.5 text-xs font-medium text-secondary-foreground hover:bg-muted transition-colors"
+              >
+                Format JSON
+              </button>
+            </div>
             <textarea
               ref={rightRef}
               value={modified}
@@ -178,6 +209,17 @@ export default function AdvancedJsonDiff() {
           {/* Summary */}
           <SummaryPanel summary={diffResult.summary} />
 
+          {/* Search */}
+          <div className="flex items-center gap-2 mt-4">
+            <input
+              type="text"
+              placeholder="Search keys/values..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="flex-1 rounded-md border border-border bg-card px-3 py-1.5 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+            />
+          </div>
+
           {/* Tree controls */}
           {diffMode === "tree" && (
             <div className="flex items-center gap-2 mt-4 mb-2">
@@ -202,6 +244,7 @@ export default function AdvancedJsonDiff() {
                   expandAll={expandAll}
                   onSelect={setSelectedNode}
                   selectedPath={selectedNode?.path}
+                  searchTerm={searchTerm}
                 />
               </div>
             </div>
@@ -289,10 +332,10 @@ function SummaryPanel({ summary }: { summary: DiffSummary }) {
 
 // ─── Tree Node ────────────────────────────────────────────
 const TreeNodeView = memo(function TreeNodeView({
-  node, depth, expandAll, onSelect, selectedPath
+  node, depth, expandAll, onSelect, selectedPath, searchTerm
 }: {
   node: DiffNode; depth: number; expandAll: boolean;
-  onSelect: (n: DiffNode) => void; selectedPath?: string;
+  onSelect: (n: DiffNode) => void; selectedPath?: string; searchTerm: string;
 }) {
   const [open, setOpen] = useState(depth < 2);
   const hasChildren = node.children && node.children.length > 0;
@@ -306,6 +349,39 @@ const TreeNodeView = memo(function TreeNodeView({
   }
 
   const effectiveOpen = expandAll ? true : open;
+
+  // Check if node matches search
+  const matchesSearch = useMemo(() => {
+    if (!searchTerm) return true;
+    const term = searchTerm.toLowerCase();
+    const keyMatch = node.key.toLowerCase().includes(term);
+    const oldValueMatch = node.oldValue !== undefined && JSON.stringify(node.oldValue).toLowerCase().includes(term);
+    const newValueMatch = node.newValue !== undefined && JSON.stringify(node.newValue).toLowerCase().includes(term);
+    return keyMatch || oldValueMatch || newValueMatch;
+  }, [node, searchTerm]);
+
+  // Check if any child matches
+  const hasMatchingChild = useMemo(() => {
+    if (!searchTerm || !hasChildren) return false;
+    const checkChildren = (children: DiffNode[]): boolean => {
+      for (const child of children) {
+        const term = searchTerm.toLowerCase();
+        if (child.key.toLowerCase().includes(term) ||
+            (child.oldValue !== undefined && JSON.stringify(child.oldValue).toLowerCase().includes(term)) ||
+            (child.newValue !== undefined && JSON.stringify(child.newValue).toLowerCase().includes(term))) {
+          return true;
+        }
+        if (child.children) {
+          if (checkChildren(child.children)) return true;
+        }
+      }
+      return false;
+    };
+    return checkChildren(node.children!);
+  }, [node.children, searchTerm, hasChildren]);
+
+  // Render only if matches or has matching child
+  if (!matchesSearch && !hasMatchingChild) return null;
 
   const typeColors: Record<ChangeType, string> = {
     added: "text-success",
@@ -364,6 +440,7 @@ const TreeNodeView = memo(function TreeNodeView({
               expandAll={expandAll}
               onSelect={onSelect}
               selectedPath={selectedPath}
+              searchTerm={searchTerm}
             />
           ))}
         </div>
